@@ -3,7 +3,7 @@
 //  RSWeb
 //
 //  Created by Brent Simmons on 12/26/16.
-//  Copyright © 2016 Ranchero Software. All rights reserved.
+//  Copyright © 2016 Ranchero Software, LLC. All rights reserved.
 //
 
 import Foundation
@@ -63,7 +63,7 @@ private extension String {
 			return self
 		}
 		
-		let index = self.index(self.startIndex, offsetBy: prefix.characters.count)
-		return substring(from: index)
+		let index = self.index(self.startIndex, offsetBy: prefix.count)
+		return String(self[..<index])
 	}
 }

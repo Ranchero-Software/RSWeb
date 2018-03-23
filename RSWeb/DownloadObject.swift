@@ -3,7 +3,7 @@
 //  RSWeb
 //
 //  Created by Brent Simmons on 8/3/16.
-//  Copyright © 2016 Ranchero Software. All rights reserved.
+//  Copyright © 2016 Ranchero Software, LLC. All rights reserved.
 //
 
 import Foundation
@@ -14,9 +14,7 @@ public final class DownloadObject: Hashable {
 	public var data = Data()
 	
 	public var hashValue: Int {
-		get {
-			return url.hashValue
-		}
+		return url.hashValue
 	}
 	
 	public init(url: URL) {

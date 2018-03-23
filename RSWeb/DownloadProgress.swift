@@ -10,43 +10,43 @@ import Foundation
 
 public extension Notification.Name {
 	
-	public static let DownloadProgressDidChange = Notification.Name(rawValue: "DownloadProgressDidChangeNotification")
+	public static let DownloadProgressDidChange = Notification.Name(rawValue: "DownloadProgressDidChange")
 }
 
-public class DownloadProgress {
+public final class DownloadProgress {
 	
 	public var numberOfTasks = 0 {
 		didSet {
 			if numberOfTasks == 0 {
 				numberRemaining = 0
 			}
-			postDidChangeNotification()
+			if numberOfTasks != oldValue {
+				postDidChangeNotification()
+			}
 		}
 	}
 	
 	public var numberRemaining = 0 {
 		didSet {
-			postDidChangeNotification()
+			if numberRemaining != oldValue {
+				postDidChangeNotification()
+			}
 		}
 	}
 
 	public var numberCompleted: Int {
-		get {
-			var n = numberOfTasks - numberRemaining
-			if n < 0 {
-				n = 0
-			}
-			if n > numberOfTasks {
-				n = numberOfTasks
-			}
-			return n
+		var n = numberOfTasks - numberRemaining
+		if n < 0 {
+			n = 0
 		}
+		if n > numberOfTasks {
+			n = numberOfTasks
+		}
+		return n
 	}
 	
 	public var isComplete: Bool {
-		get {
-			return numberRemaining < 1
-		}
+		return numberRemaining < 1
 	}
 	
 	public init(numberOfTasks: Int) {
@@ -64,6 +64,8 @@ public class DownloadProgress {
 		numberOfTasks = 0
 	}
 }
+
+// MARK: - Private
 
 private extension DownloadProgress {
 	

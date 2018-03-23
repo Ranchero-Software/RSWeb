@@ -3,21 +3,24 @@
 //  RSWeb
 //
 //  Created by Brent Simmons on 8/27/16.
-//  Copyright © 2016 Ranchero Software. All rights reserved.
+//  Copyright © 2016 Ranchero Software, LLC. All rights reserved.
 //
 
 import Foundation
 
-public class UserAgent {
+public struct UserAgent {
 	
-	public class func fromInfoPlist() -> String? {
+	public static func fromInfoPlist() -> String? {
 
-		guard let userAgentName = Bundle.main.object(forInfoDictionaryKey: "UserAgent") else {
+		return Bundle.main.object(forInfoDictionaryKey: "UserAgent") as? String
+	}
+
+	public static func headers() -> [AnyHashable: String]? {
+
+		guard let userAgent = fromInfoPlist() else {
 			return nil
 		}
-		guard let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") else {
-			return nil
-		}
-		return "\(userAgentName) \(version)"
+
+		return [HTTPRequestHeader.userAgent: userAgent]
 	}
 }

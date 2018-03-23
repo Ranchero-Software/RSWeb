@@ -3,14 +3,14 @@
 //  RSWeb
 //
 //  Created by Brent Simmons on 12/27/16.
-//  Copyright © 2016 Ranchero Software. All rights reserved.
+//  Copyright © 2016 Ranchero Software, LLC. All rights reserved.
 //
 
-import Cocoa
+import AppKit
 
 public class MacWebBrowser {
 	
-	public class func openURL(_ url: URL, inBackground: Bool) -> Bool {
+	@discardableResult public class func openURL(_ url: URL, inBackground: Bool) -> Bool {
 		
 		guard let preparedURL = url.preparedForOpeningInBrowser() else {
 			return false
@@ -18,7 +18,7 @@ public class MacWebBrowser {
 		
 		if (inBackground) {
 			do {
-			 try NSWorkspace.shared().open(preparedURL, options: [.withoutActivation], configuration: [String: Any]())
+				try NSWorkspace.shared.open(preparedURL, options: [.withoutActivation], configuration: [:])
 				return true
 			}
 			catch {
@@ -26,7 +26,7 @@ public class MacWebBrowser {
 			}
 		}
 		
-		return NSWorkspace.shared().open(preparedURL)
+		return NSWorkspace.shared.open(preparedURL)
 	}
 }
 
