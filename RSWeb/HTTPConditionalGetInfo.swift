@@ -48,8 +48,11 @@ public struct HTTPConditionalGetInfo {
 
 	public func addRequestHeadersToURLRequest(_ urlRequest: NSMutableURLRequest) {
 		
-		if let lastModified = lastModified {
-			urlRequest.addValue(lastModified, forHTTPHeaderField: HTTPRequestHeader.ifModifiedSince)
+		if let lastModified = lastModified, !lastModified.contains("2038") {
+			// Bug seen in the wild: lastModified with last possible 32-bit date, which is in 2038. Ignore those.
+			if !lastModified.contains("2038") {
+				urlRequest.addValue(lastModified, forHTTPHeaderField: HTTPRequestHeader.ifModifiedSince)
+			}
 		}
 		if let etag = etag {
 			urlRequest.addValue(etag, forHTTPHeaderField: HTTPRequestHeader.ifNoneMatch)
