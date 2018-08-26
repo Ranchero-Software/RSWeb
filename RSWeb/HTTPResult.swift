@@ -14,12 +14,4 @@ public struct HTTPResult {
 	public let data: Data?
 	public let response: URLResponse?
 	public let error: Error?
-
-	public init(url: URL, data: Data?, response: URLResponse?, error: Error?) {
-		
-		self.url = url
-		self.data = data
-		self.response = response
-		self.error = error
-	}
 }
