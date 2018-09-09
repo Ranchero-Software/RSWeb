@@ -105,6 +105,12 @@ private final class WebCache {
 // URLSessionConfiguration has a cache policy.
 // But we don’t know how it works, and the unimplemented parts spook us a bit.
 // So we use a cache that works exactly as we want it to work.
+// It also makes sure we don’t have multiple requests for the same URL at the same time.
+
+private struct CallbackRecord {
+	let url: URL
+	let callback: OneShotDownloadCallback
+}
 
 private final class DownloadWithCacheManager {
 
@@ -113,6 +119,8 @@ private final class DownloadWithCacheManager {
 	private static let timeToLive: TimeInterval = 10 * 60 // 10 minutes
 	private static let cleanupInterval: TimeInterval = 5 * 60 // clean up the cache at most every 5 minutes
 	private var lastCleanupDate = Date()
+	private var pendingCallbacks = [CallbackRecord]()
+	private var urlsInProgress = Set<URL>()
 
 	func download(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
 
@@ -127,18 +135,35 @@ private final class DownloadWithCacheManager {
 			return
 		}
 
+		let callbackRecord = CallbackRecord(url: url, callback: callback)
+		pendingCallbacks.append(callbackRecord)
+		if urlsInProgress.contains(url) {
+			return // It will get called later.
+		}
+		urlsInProgress.insert(url)
+
 		OneShotDownloadManager.shared.download(url) { (data, response, error) in
+
+			self.urlsInProgress.remove(url)
 
 			if let data = data, let response = response, response.statusIsOK, error == nil {
 				let cacheRecord = WebCacheRecord(url: url, dateDownloaded: Date(), data: data, response: response)
 				self.cache[url] = cacheRecord
 			}
 
-			callback(data, response, error)
+			var callbackCount = 0
+			self.pendingCallbacks.forEach{ (callbackRecord) in
+				if url == callbackRecord.url {
+					callbackRecord.callback(data, response, error)
+					callbackCount += 1
+				}
+			}
+			self.pendingCallbacks.removeAll(where: { (callbackRecord) -> Bool in
+				return callbackRecord.url == url
+			})
 		}
 	}
 }
-
 
 public func downloadUsingCache(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
 
