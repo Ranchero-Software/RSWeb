@@ -38,9 +38,16 @@ private final class OneShotDownloadManager {
 	}
 
 	public func download(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
-
 		let task = urlSession.dataTask(with: url) { (data, response, error) in
+			DispatchQueue.main.async() {
+				callback(data, response, error)
+			}
+		}
+		task.resume()
+	}
 
+	public func download(_ urlRequest: URLRequest, _ callback: @escaping OneShotDownloadCallback) {
+		let task = urlSession.dataTask(with: urlRequest) { (data, response, error) in
 			DispatchQueue.main.async() {
 				callback(data, response, error)
 			}
@@ -49,12 +56,15 @@ private final class OneShotDownloadManager {
 	}
 }
 
-// Call this. It’s easier than referring to OneShotDownloadManager.
+// Call one of these. It’s easier than referring to OneShotDownloadManager.
 // callback is called on the main queue.
 
 public func download(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
-
 	OneShotDownloadManager.shared.download(url, callback)
+}
+
+public func download(_ urlRequest: URLRequest, _ callback: @escaping OneShotDownloadCallback) {
+	OneShotDownloadManager.shared.download(urlRequest, callback)
 }
 
 // MARK: - Downloading using a cache
