@@ -10,7 +10,7 @@ import Foundation
 
 public extension Notification.Name {
 	
-	public static let DownloadProgressDidChange = Notification.Name(rawValue: "DownloadProgressDidChange")
+	static let DownloadProgressDidChange = Notification.Name(rawValue: "DownloadProgressDidChange")
 }
 
 public final class DownloadProgress {

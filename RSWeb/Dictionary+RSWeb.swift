@@ -10,7 +10,7 @@ import Foundation
 
 public extension Dictionary  {
 
-	public func urlQueryString() -> String? {
+	func urlQueryString() -> String? {
 
 		// Turn a dictionary into string like foo=bar&param2=some%20thing
 		// Return nil if empty dictionary.

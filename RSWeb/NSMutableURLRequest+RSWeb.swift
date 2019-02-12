@@ -10,7 +10,7 @@ import Foundation
 
 public extension NSMutableURLRequest {
 
-	public func addBasicAuthorization(username: String, password: String) -> Bool {
+	func addBasicAuthorization(username: String, password: String) -> Bool {
 		
 		// Do this *only* with https. And not even then if you can help it.
 		
