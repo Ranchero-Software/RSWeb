@@ -21,22 +21,22 @@ public struct MimeType {
 
 public extension String {
 	
-	public func isMimeTypeImage() -> Bool {
+	func isMimeTypeImage() -> Bool {
 		
 		return self.isOfGeneralMimeType("image")
 	}
 	
-	public func isMimeTypeAudio() -> Bool {
+	func isMimeTypeAudio() -> Bool {
 		
 		return self.isOfGeneralMimeType("audio")
 	}
 	
-	public func isMimeTypeVideo() -> Bool {
+	func isMimeTypeVideo() -> Bool {
 		
 		return self.isOfGeneralMimeType("video")
 	}
 	
-	public func isMimeTypeTimeBasedMedia() -> Bool {
+	func isMimeTypeTimeBasedMedia() -> Bool {
 		
 		return self.isMimeTypeAudio() || self.isMimeTypeVideo()
 	}

@@ -12,7 +12,7 @@ public extension URLRequest {
 	
 	// Experimental. Returns nil if scheme isn't http or https (about:blank, for instance).
 	
-	public func loadingURL() -> URL? {
+	func loadingURL() -> URL? {
 		
 		guard let url = mainDocumentURL else {
 			return nil

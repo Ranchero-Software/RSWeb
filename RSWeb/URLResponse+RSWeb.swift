@@ -10,11 +10,11 @@ import Foundation
 
 public extension URLResponse {
 	
-	public var statusIsOK: Bool {
+	var statusIsOK: Bool {
 		return forcedStatusCode >= 200 && forcedStatusCode <= 299
 	}
 	
-	public var forcedStatusCode: Int {
+	var forcedStatusCode: Int {
 		
 		// Return actual statusCode or -1 if there isn’t one.
 		
@@ -27,7 +27,7 @@ public extension URLResponse {
 
 public extension HTTPURLResponse {
 	
-	public func valueForHTTPHeaderField(_ headerField: String) -> String? {
+	func valueForHTTPHeaderField(_ headerField: String) -> String? {
 		
 		// Case-insensitive. HTTP headers may not be in the case you expect.
 		
