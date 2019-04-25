@@ -10,18 +10,19 @@ import Foundation
 
 @objc public class DownloadSession: NSObject {
 	
-	public var progress = DownloadProgress(numberOfTasks: 0)
-	
+	let delegate: DownloadSessionDelegate
+	let progress: DownloadProgress!
 	var urlSession: URLSession!
+	
 	var tasksInProgress = Set<URLSessionTask>()
 	var tasksPending = Set<URLSessionTask>()
 	var taskIdentifierToInfoDictionary = [Int: DownloadInfo]()
 	let representedObjects = NSMutableSet()
-	let delegate: DownloadSessionDelegate
 	var redirectCache = [String: String]()
 	
-	public init(delegate: DownloadSessionDelegate, sessionConfiguration: URLSessionConfiguration) {
+	public init(delegate: DownloadSessionDelegate, progress: DownloadProgress, sessionConfiguration: URLSessionConfiguration) {
 		self.delegate = delegate
+		self.progress = progress
 		super.init()
 		urlSession = URLSession(configuration: sessionConfiguration, delegate: self, delegateQueue: OperationQueue.main)
 	}

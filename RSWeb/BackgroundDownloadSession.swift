@@ -14,7 +14,7 @@ import Foundation
 	public static var completionHandler: (() -> Void)?
 	#endif
 	
-	public init(delegate: DownloadSessionDelegate) {
+	public init(delegate: DownloadSessionDelegate, progress: DownloadProgress) {
 		
 		let sessionConfiguration  = URLSessionConfiguration.background(withIdentifier: "BackgroundDownloadSession")
 		#if os(iOS)
@@ -34,7 +34,7 @@ import Foundation
 			sessionConfiguration.httpAdditionalHeaders = userAgentHeaders
 		}
 		
-		super.init(delegate: delegate, sessionConfiguration: sessionConfiguration)
+		super.init(delegate: delegate, progress: progress, sessionConfiguration: sessionConfiguration)
 		
 	}
 	

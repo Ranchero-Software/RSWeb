@@ -10,7 +10,7 @@ import Foundation
 
 @objc public final class DefaultDownloadSession: DownloadSession {
 	
-	public init(delegate: DownloadSessionDelegate) {
+	public init(delegate: DownloadSessionDelegate, progress: DownloadProgress) {
 		
 		let sessionConfiguration = URLSessionConfiguration.default
 		sessionConfiguration.requestCachePolicy = .reloadIgnoringLocalCacheData
@@ -25,7 +25,7 @@ import Foundation
 			sessionConfiguration.httpAdditionalHeaders = userAgentHeaders
 		}
 		
-		super.init(delegate: delegate, sessionConfiguration: sessionConfiguration)
+		super.init(delegate: delegate, progress: progress, sessionConfiguration: sessionConfiguration)
 
 	}
 	
