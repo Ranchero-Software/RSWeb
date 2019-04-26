@@ -19,15 +19,13 @@ public protocol DownloadSessionDelegate {
 
 	func downloadSession(_ downloadSession: DownloadSession, shouldContinueAfterReceivingData: Data, representedObject: AnyObject) -> Bool
 
+	func downloadSession(_ downloadSession: DownloadSession, didReceiveUnexpectedResponse: URLResponse, representedObject: AnyObject)
+
+	func downloadSession(_ downloadSession: DownloadSession, didReceiveNotModifiedResponse: URLResponse, representedObject: AnyObject)
 }
 
 
 @objc public final class DownloadSession: NSObject {
-	
-	public static var sessionConfig: URLSessionConfiguration?
-	#if os(iOS)
-	public static var completionHandler: (() -> Void)?
-	#endif
 	
 	public var progress = DownloadProgress(numberOfTasks: 0)
 
@@ -45,13 +43,7 @@ public protocol DownloadSessionDelegate {
 
 		super.init()
 		
-		let sessionConfiguration: URLSessionConfiguration
-		if let sessionConfig = DownloadSession.sessionConfig {
-			sessionConfiguration = sessionConfig
-		} else {
-			sessionConfiguration = URLSessionConfiguration.default
-		}
-		
+		let sessionConfiguration = URLSessionConfiguration.default
 		sessionConfiguration.requestCachePolicy = .reloadIgnoringLocalCacheData
 		sessionConfiguration.timeoutIntervalForRequest = 60.0
 		sessionConfiguration.httpShouldSetCookies = false
@@ -86,7 +78,7 @@ public protocol DownloadSessionDelegate {
 
 			if !representedObjects.contains(oneObject) {
 				representedObjects.add(oneObject)
-				addDownloadTask(oneObject as AnyObject)
+				addDataTask(oneObject as AnyObject)
 				numberOfTasksAdded += 1
 			}
 		}
@@ -95,17 +87,6 @@ public protocol DownloadSessionDelegate {
 		updateProgress()
 	}
 }
-
-#if os(iOS)
-extension DownloadSession: URLSessionDelegate {
-	public func urlSessionDidFinishEvents(forBackgroundURLSession session: URLSession) {
-		DispatchQueue.main.async {
-			DownloadSession.completionHandler?()
-			DownloadSession.completionHandler = nil
-		}
-	}
-}
-#endif
 
 // MARK: - URLSessionTaskDelegate
 
@@ -138,26 +119,61 @@ extension DownloadSession: URLSessionTaskDelegate {
 	}
 }
 
-// MARK: - URLSessionDownloadDelegate
+// MARK: - URLSessionDataDelegate
 
-extension DownloadSession: URLSessionDownloadDelegate {
-	
-	public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+extension DownloadSession: URLSessionDataDelegate {
+
+	public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
 		
-		guard let data = try? Data(contentsOf: location), let info = infoForTask(downloadTask) else {
+		tasksInProgress.insert(dataTask)
+		tasksPending.remove(dataTask)
+		
+		if let info = infoForTask(dataTask) {
+			info.urlResponse = response
+		}
+
+		if response.forcedStatusCode == 304 {
+
+			if let representedObject = infoForTask(dataTask)?.representedObject {
+				delegate.downloadSession(self, didReceiveNotModifiedResponse: response, representedObject: representedObject)
+			}
+
+			completionHandler(.cancel)
+			removeTask(dataTask)
+
+			return
+		}
+
+		if !response.statusIsOK {
+
+			if let representedObject = infoForTask(dataTask)?.representedObject {
+				delegate.downloadSession(self, didReceiveUnexpectedResponse: response, representedObject: representedObject)
+			}
+
+			completionHandler(.cancel)
+			removeTask(dataTask)
+
+			return
+		}
+
+		completionHandler(.allow)
+	}
+	
+	public func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+
+		guard let info = infoForTask(dataTask) else {
 			return
 		}
 		info.addData(data)
-		
+
 		if !delegate.downloadSession(self, shouldContinueAfterReceivingData: info.data as Data, representedObject: info.representedObject) {
 			
 			info.canceled = true
-			downloadTask.cancel()
-			removeTask(downloadTask)
+			dataTask.cancel()
+			removeTask(dataTask)
 		}
-		
 	}
-	
+		
 }
 
 // MARK: - Private
@@ -173,7 +189,7 @@ private extension DownloadSession {
 		}
 	}
 	
-	func addDownloadTask(_ representedObject: AnyObject) {
+	func addDataTask(_ representedObject: AnyObject) {
 
 		guard let request = delegate.downloadSession(self, requestForRepresentedObject: representedObject) else {
 			return
@@ -189,7 +205,7 @@ private extension DownloadSession {
 			}
 		}
 		
-		let task = urlSession.downloadTask(with: requestToUse)
+		let task = urlSession.dataTask(with: requestToUse)
 
 		let info = DownloadInfo(representedObject, urlRequest: requestToUse)
 		taskIdentifierToInfoDictionary[task.taskIdentifier] = info
