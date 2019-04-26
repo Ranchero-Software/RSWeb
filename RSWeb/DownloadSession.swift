@@ -80,15 +80,19 @@ public protocol DownloadSessionDelegate {
 
 	public func downloadObjects(_ objects: NSSet) {
 
+		var numberOfTasksAdded = 0
+
 		for oneObject in objects {
 
 			if !representedObjects.contains(oneObject) {
 				representedObjects.add(oneObject)
 				addDownloadTask(oneObject as AnyObject)
+				numberOfTasksAdded += 1
 			}
-			
 		}
 
+		progress.addToNumberOfTasks(numberOfTasksAdded)
+		updateProgress()
 	}
 }
 
@@ -185,24 +189,13 @@ private extension DownloadSession {
 			}
 		}
 		
-		DispatchQueue.global().async { [weak self] in
-			guard let task = self?.urlSession.downloadTask(with: requestToUse) else {
-				return
-			}
-			DispatchQueue.main.async { [weak self] in
-				
-				let info = DownloadInfo(representedObject, urlRequest: requestToUse)
-				self?.taskIdentifierToInfoDictionary[task.taskIdentifier] = info
-				
-				self?.tasksPending.insert(task)
-				task.resume()
-				
-				self?.progress.addToNumberOfTasks(1)
-				self?.updateProgress()
-				
-			}
-		}
-		
+		let task = urlSession.downloadTask(with: requestToUse)
+
+		let info = DownloadInfo(representedObject, urlRequest: requestToUse)
+		taskIdentifierToInfoDictionary[task.taskIdentifier] = info
+
+		tasksPending.insert(task)
+		task.resume()
 	}
 
 	func infoForTask(_ task: URLSessionTask) -> DownloadInfo? {
