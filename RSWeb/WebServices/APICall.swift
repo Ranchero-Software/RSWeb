@@ -10,30 +10,30 @@ import Foundation
 
 // Main thread only.
 
-public protocol APICallDelegate {
+public class APICall {
 
-	func apiCallURLRequest(_ call: APICall) -> URLRequest?
-	func apiCall(_ call: APICall, parseReturnedObjectWith: HTTPResult) -> Any?
-	func apiCall(_ call: APICall, handleErrorWith: HTTPResult, returnedObject: Any?)
-	func apiCall(_ call: APICall, performActionWith: HTTPResult, returnedObject: Any?)
-}
-
-public struct APICall {
-
-	public let provider: WebServiceProvider
-	public let methodName: String
-	public let identifier: Int
-	private let delegate: APICallDelegate
-	private static var incrementingIdentifier = 0
-
-	public init(provider: WebServiceProvider, methodName: String, delegate: APICallDelegate) {
-
-		self.provider = provider
-		self.methodName = methodName
-		self.delegate = delegate
-
-		self.identifier = APICall.incrementingIdentifier
-		APICall.incrementingIdentifier += 1
+	let session: URLSession
+	let request: URLRequest
+	
+	public init(session: URLSession, request: URLRequest) {
+		self.session = session
+		self.request = request
 	}
+	
+	public func execute(completionHandler handler: @escaping APIResultBlock) {
+		
+		let task = session.dataTask(with: request) { (data, response, error) in
+			
+			let result = APIResult.resultWithRequest(response: response, data: data, error: error)
+			
+			DispatchQueue.main.async {
+				handler(result)
+			}
+			
+		}
+		
+		task.resume()
+		
+	}
+	
 }
-
