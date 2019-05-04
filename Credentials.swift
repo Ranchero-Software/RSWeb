@@ -8,6 +8,11 @@
 
 import Foundation
 
+public enum CredentialsError: Error {
+	case incompleteCredentials
+	case unhandledError(status: OSStatus)
+}
+
 public protocol Credentials {
 	var username: String? { get set }
 	var password: String? { get set }
