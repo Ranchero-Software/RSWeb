@@ -9,7 +9,6 @@
 import Foundation
 
 public protocol Credentials {
-
 	var username: String? { get set }
 	var password: String? { get set }
 }
