@@ -15,5 +15,6 @@ public enum CredentialsError: Error {
 
 public enum Credentials {
 	case basic(username: String, password: String)
+//	case oauth2(token: String)
 }
 
