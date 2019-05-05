@@ -21,7 +21,7 @@ public protocol Transport {
 	func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data), Error>) -> Void)
 }
 
-extension URLSession: Transport {
+extension Transport {
 	
 	public func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T), Error>) -> Void) {
 		
@@ -43,6 +43,10 @@ extension URLSession: Transport {
 		}
 		
 	}
+	
+}
+
+extension URLSession: Transport {
 	
 	public func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data), Error>) -> Void) {
 		
