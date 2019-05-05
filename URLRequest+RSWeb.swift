@@ -10,7 +10,7 @@ import Foundation
 
 public extension URLRequest {
 	
-	init(url: URL, credentials: Credentials?) {
+	init(url: URL, credentials: Credentials?, conditionalGet: HTTPConditionalGetInfo? = nil) {
 		
 		self.init(url: url)
 		
@@ -23,7 +23,20 @@ public extension URLRequest {
 			let data = "\(username):\(password)".data(using: .utf8)
 			let base64 = data?.base64EncodedString()
 			let auth = "Basic \(base64 ?? "")"
-			setValue(auth, forHTTPHeaderField: "Authorization")
+			setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
+		}
+		
+		guard let conditionalGet = conditionalGet else {
+			return
+		}
+		
+		// Bug seen in the wild: lastModified with last possible 32-bit date, which is in 2038. Ignore those.
+		// TODO: drop this check in late 2037.
+		if let lastModified = conditionalGet.lastModified, !lastModified.contains("2038") {
+			setValue(lastModified, forHTTPHeaderField: HTTPRequestHeader.ifModifiedSince)
+		}
+		if let etag = conditionalGet.etag {
+			setValue(etag, forHTTPHeaderField: HTTPRequestHeader.ifNoneMatch)
 		}
 		
 	}

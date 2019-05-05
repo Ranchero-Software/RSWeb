@@ -24,10 +24,15 @@ public struct HTTPConditionalGetInfo: Codable, Equatable {
 	public init?(urlResponse: HTTPURLResponse) {
 		let lastModified = urlResponse.valueForHTTPHeaderField(HTTPResponseHeader.lastModified)
 		let etag = urlResponse.valueForHTTPHeaderField(HTTPResponseHeader.etag)
-
 		self.init(lastModified: lastModified, etag: etag)
 	}
 
+	public init?(headers: HTTPHeaders) {
+		let lastModified = headers[HTTPResponseHeader.lastModified] as? String
+		let etag = headers[HTTPResponseHeader.etag] as? String
+		self.init(lastModified: lastModified, etag: etag)
+	}
+	
 	public func addRequestHeadersToURLRequest(_ urlRequest: NSMutableURLRequest) {
 		// Bug seen in the wild: lastModified with last possible 32-bit date, which is in 2038. Ignore those.
 		// TODO: drop this check in late 2037.
