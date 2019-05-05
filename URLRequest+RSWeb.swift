@@ -10,18 +10,21 @@ import Foundation
 
 public extension URLRequest {
 	
-	init(url: URL, credentials: Credentials) {
+	init(url: URL, credentials: Credentials?) {
 		
 		self.init(url: url)
 		
-		guard let username = credentials.username, let password = credentials.password else {
+		guard let credentials = credentials else {
 			return
 		}
 		
-		let data = "\(username):\(password)".data(using: .utf8)
-		let base64 = data?.base64EncodedString()
-		let auth = "Basic \(base64 ?? "")"
-		setValue(auth, forHTTPHeaderField: "Authorization")
+		switch credentials {
+		case .basic(let username, let password):
+			let data = "\(username):\(password)".data(using: .utf8)
+			let base64 = data?.base64EncodedString()
+			let auth = "Basic \(base64 ?? "")"
+			setValue(auth, forHTTPHeaderField: "Authorization")
+		}
 		
 	}
 	

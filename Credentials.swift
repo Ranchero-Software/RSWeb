@@ -13,8 +13,7 @@ public enum CredentialsError: Error {
 	case unhandledError(status: OSStatus)
 }
 
-public protocol Credentials {
-	var username: String? { get set }
-	var password: String? { get set }
+public enum Credentials {
+	case basic(username: String, password: String)
 }
 

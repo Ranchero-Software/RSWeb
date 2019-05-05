@@ -9,18 +9,42 @@
 
 import Foundation
 
+public typealias HTTPHeaders = [AnyHashable : Any]
+
 public enum TransportError: Error {
 	case noData
 	case httpError(status: Int)
 }
 
 public protocol Transport {
-	func send(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void)
+	func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T), Error>) -> Void)
+	func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data), Error>) -> Void)
 }
 
 extension URLSession: Transport {
 	
-	public func send(request: URLRequest, completion: @escaping (Result<Data, Error>) -> Void) {
+	public func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T), Error>) -> Void) {
+		
+		send(request: request) { result in
+			
+			switch result {
+			case .success(let (headers, data)):
+				do {
+					let decoder = JSONDecoder()
+					let decoded = try decoder.decode(T.self, from: data)
+					completion(.success((headers, decoded)))
+				} catch {
+					completion(.failure(error))
+				}
+			case .failure(let error):
+				completion(.failure(error))
+			}
+			
+		}
+		
+	}
+	
+	public func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data), Error>) -> Void) {
 		
 		let task = self.dataTask(with: request) { (data, response, error) in
 			
@@ -28,14 +52,14 @@ extension URLSession: Transport {
 				return completion(.failure(error))
 			}
 			
-			guard let response = response, let data = data else {
+			guard let response = response as? HTTPURLResponse, let data = data else {
 				return completion(.failure(TransportError.noData))
 			}
 			
 			DispatchQueue.main.async {
 				switch response.forcedStatusCode {
 				case 200...299:
-					completion(.success(data))
+					completion(.success((response.allHeaderFields, data)))
 				default:
 					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
 				}
