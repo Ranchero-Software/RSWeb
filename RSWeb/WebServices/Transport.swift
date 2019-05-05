@@ -31,6 +31,7 @@ extension Transport {
 			case .success(let (headers, data)):
 				do {
 					let decoder = JSONDecoder()
+					decoder.dateDecodingStrategy = .formatted(DateFormatter.rfc3339DateFormatter)
 					let decoded = try decoder.decode(T.self, from: data)
 					completion(.success((headers, decoded)))
 				} catch {
