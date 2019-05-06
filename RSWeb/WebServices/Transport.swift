@@ -17,23 +17,27 @@ public enum TransportError: Error {
 }
 
 public protocol Transport {
-	func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T), Error>) -> Void)
-	func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data), Error>) -> Void)
+	func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T?), Error>) -> Void)
+	func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void)
 }
 
 extension Transport {
 	
-	public func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T), Error>) -> Void) {
+	public func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T?), Error>) -> Void) {
 		
 		send(request: request) { result in
 			
 			switch result {
 			case .success(let (headers, data)):
 				do {
-					let decoder = JSONDecoder()
-					decoder.dateDecodingStrategy = .formatted(DateFormatter.rfc3339DateFormatter)
-					let decoded = try decoder.decode(T.self, from: data)
-					completion(.success((headers, decoded)))
+					if let data = data {
+						let decoder = JSONDecoder()
+						decoder.dateDecodingStrategy = .formatted(DateFormatter.rfc3339DateFormatter)
+						let decoded = try decoder.decode(T.self, from: data)
+						completion(.success((headers, decoded)))
+					} else {
+						completion(.success((headers, nil)))
+					}
 				} catch {
 					completion(.failure(error))
 				}
@@ -49,7 +53,7 @@ extension Transport {
 
 extension URLSession: Transport {
 	
-	public func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data), Error>) -> Void) {
+	public func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void) {
 		
 		let task = self.dataTask(with: request) { (data, response, error) in
 			
@@ -65,6 +69,8 @@ extension URLSession: Transport {
 				switch response.forcedStatusCode {
 				case 200...299:
 					completion(.success((response.allHeaderFields, data)))
+				case HTTPResponseCode.notModified:
+					completion(.success((response.allHeaderFields, nil)))
 				default:
 					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
 				}
