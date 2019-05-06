@@ -35,8 +35,17 @@ public enum TransportError: LocalizedError {
 }
 
 public protocol Transport {
+	
+	/**
+	Sends URLRequest and returns the HTTP headers and the data payload.
+	*/
 	func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void)
-	func send(request: URLRequest, data: Data, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void)
+	
+	/**
+	Sends URLRequest with a data payload and returns the HTTP headers and the data payload.
+	*/
+	func send(request: URLRequest, payload: Data, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void)
+	
 }
 
 extension URLSession: Transport {
@@ -71,9 +80,9 @@ extension URLSession: Transport {
 		
 	}
 
-	public func send(request: URLRequest, data: Data, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void) {
+	public func send(request: URLRequest, payload: Data, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void) {
 		
-		let task = self.uploadTask(with: request, from: data) { (data, response, error) in
+		let task = self.uploadTask(with: request, from: payload) { (data, response, error) in
 			
 			DispatchQueue.main.async {
 				
