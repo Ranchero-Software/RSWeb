@@ -11,6 +11,8 @@
 		51D5874B227E4B0A00900287 /* DateFormatter+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D58749227E4B0A00900287 /* DateFormatter+RSWeb.swift */; };
 		51D58752227ED15F00900287 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D58751227ED15F00900287 /* CredentialsManager.swift */; };
 		51D58753227ED15F00900287 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D58751227ED15F00900287 /* CredentialsManager.swift */; };
+		51D587622280554B00900287 /* TransportJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D587612280554B00900287 /* TransportJSON.swift */; };
+		51D587632280554B00900287 /* TransportJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D587612280554B00900287 /* TransportJSON.swift */; };
 		51EC99CF227DBC1F002E55C9 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EC99CE227DBC1F002E55C9 /* Transport.swift */; };
 		51EC99D0227DBC1F002E55C9 /* Transport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51EC99CE227DBC1F002E55C9 /* Transport.swift */; };
 		8409DB2C200AE4D700CE879E /* Dictionary+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409DB2B200AE4D700CE879E /* Dictionary+RSWeb.swift */; };
@@ -67,6 +69,7 @@
 /* Begin PBXFileReference section */
 		51D58749227E4B0A00900287 /* DateFormatter+RSWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DateFormatter+RSWeb.swift"; path = "RSWeb/DateFormatter+RSWeb.swift"; sourceTree = "<group>"; };
 		51D58751227ED15F00900287 /* CredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsManager.swift; sourceTree = "<group>"; };
+		51D587612280554B00900287 /* TransportJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportJSON.swift; sourceTree = "<group>"; };
 		51EC99CE227DBC1F002E55C9 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
 		8409DB2B200AE4D700CE879E /* Dictionary+RSWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+RSWeb.swift"; sourceTree = "<group>"; };
 		8409DB2D200AE74400CE879E /* DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryTests.swift; sourceTree = "<group>"; };
@@ -137,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				51EC99CE227DBC1F002E55C9 /* Transport.swift */,
+				51D587612280554B00900287 /* TransportJSON.swift */,
 			);
 			name = WebServices;
 			path = RSWeb/WebServices;
@@ -397,6 +401,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				842ED2F01E12FB9B000CF738 /* HTTPResponseHeader.swift in Sources */,
+				51D587622280554B00900287 /* TransportJSON.swift in Sources */,
 				842ED2FF1E12FBC1000CF738 /* UserAgent.swift in Sources */,
 				842ED2FC1E12FBBB000CF738 /* DownloadObject.swift in Sources */,
 				842ED30E1E12FBDD000CF738 /* URLResponse+RSWeb.swift in Sources */,
@@ -440,6 +445,7 @@
 				842ED30F1E12FBDD000CF738 /* URLResponse+RSWeb.swift in Sources */,
 				842ED2E81E12FB8A000CF738 /* HTTPRequestHeader.swift in Sources */,
 				842ED3001E12FBC1000CF738 /* UserAgent.swift in Sources */,
+				51D587632280554B00900287 /* TransportJSON.swift in Sources */,
 				842ED2FA1E12FBB5000CF738 /* DownloadProgress.swift in Sources */,
 				51D5874B227E4B0A00900287 /* DateFormatter+RSWeb.swift in Sources */,
 				842ED2EB1E12FB91000CF738 /* HTTPMethod.swift in Sources */,

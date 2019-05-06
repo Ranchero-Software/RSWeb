@@ -11,44 +11,32 @@ import Foundation
 
 public typealias HTTPHeaders = [AnyHashable : Any]
 
-public enum TransportError: Error {
+public enum TransportError: LocalizedError {
 	case noData
 	case httpError(status: Int)
+	
+	public var errorDescription: String? {
+		switch self {
+		case .httpError(let status):
+			switch status {
+			default:
+				let msg = NSLocalizedString("An unexpected network error occurred.  HTTP Status: ", comment: "Unexpected error")
+				return "\(msg) \(status)"
+			}
+		default:
+			return NSLocalizedString("An unknown network error occurred.", comment: "Unknown error")
+		}
+	}
+	
+	public var recoverySuggestion: String? {
+		return NSLocalizedString("Please try again later.", comment: "Try later")
+	}
+	
 }
 
 public protocol Transport {
-	func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T?), Error>) -> Void)
 	func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void)
-}
-
-extension Transport {
-	
-	public func send<T: Codable>(request: URLRequest, resultType: T.Type, completion: @escaping (Result<(HTTPHeaders, T?), Error>) -> Void) {
-		
-		send(request: request) { result in
-			
-			switch result {
-			case .success(let (headers, data)):
-				do {
-					if let data = data {
-						let decoder = JSONDecoder()
-						decoder.dateDecodingStrategy = .formatted(DateFormatter.rfc3339DateFormatter)
-						let decoded = try decoder.decode(T.self, from: data)
-						completion(.success((headers, decoded)))
-					} else {
-						completion(.success((headers, nil)))
-					}
-				} catch {
-					completion(.failure(error))
-				}
-			case .failure(let error):
-				completion(.failure(error))
-			}
-			
-		}
-		
-	}
-	
+	func send(request: URLRequest, data: Data, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void)
 }
 
 extension URLSession: Transport {
@@ -57,15 +45,16 @@ extension URLSession: Transport {
 		
 		let task = self.dataTask(with: request) { (data, response, error) in
 			
-			if let error = error {
-				return completion(.failure(error))
-			}
-			
-			guard let response = response as? HTTPURLResponse, let data = data else {
-				return completion(.failure(TransportError.noData))
-			}
-			
 			DispatchQueue.main.async {
+				
+				if let error = error {
+					return completion(.failure(error))
+				}
+				
+				guard let response = response as? HTTPURLResponse, let data = data else {
+					return completion(.failure(TransportError.noData))
+				}
+			
 				switch response.forcedStatusCode {
 				case 200...299:
 					completion(.success((response.allHeaderFields, data)))
@@ -74,6 +63,35 @@ extension URLSession: Transport {
 				default:
 					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
 				}
+			}
+			
+		}
+		
+		task.resume()
+		
+	}
+
+	public func send(request: URLRequest, data: Data, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void) {
+		
+		let task = self.uploadTask(with: request, from: data) { (data, response, error) in
+			
+			DispatchQueue.main.async {
+				
+				if let error = error {
+					return completion(.failure(error))
+				}
+				
+				guard let response = response as? HTTPURLResponse, let data = data else {
+					return completion(.failure(TransportError.noData))
+				}
+			
+				switch response.forcedStatusCode {
+				case 200...299:
+					completion(.success((response.allHeaderFields, data)))
+				default:
+					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+				}
+				
 			}
 			
 		}
