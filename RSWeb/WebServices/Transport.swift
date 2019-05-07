@@ -54,26 +54,22 @@ extension URLSession: Transport {
 		
 		let task = self.dataTask(with: request) { (data, response, error) in
 			
-			DispatchQueue.main.async {
-				
-				if let error = error {
-					return completion(.failure(error))
-				}
-				
-				guard let response = response as? HTTPURLResponse, let data = data else {
-					return completion(.failure(TransportError.noData))
-				}
-			
-				switch response.forcedStatusCode {
-				case 200...299:
-					completion(.success((response.allHeaderFields, data)))
-				case HTTPResponseCode.notModified:
-					completion(.success((response.allHeaderFields, nil)))
-				default:
-					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
-				}
+			if let error = error {
+				return completion(.failure(error))
 			}
 			
+			guard let response = response as? HTTPURLResponse, let data = data else {
+				return completion(.failure(TransportError.noData))
+			}
+		
+			switch response.forcedStatusCode {
+			case 200...299:
+				completion(.success((response.allHeaderFields, data)))
+			case HTTPResponseCode.notModified:
+				completion(.success((response.allHeaderFields, nil)))
+			default:
+				completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+			}
 		}
 		
 		task.resume()
@@ -84,25 +80,21 @@ extension URLSession: Transport {
 		
 		let task = self.uploadTask(with: request, from: payload) { (data, response, error) in
 			
-			DispatchQueue.main.async {
-				
-				if let error = error {
-					return completion(.failure(error))
-				}
-				
-				guard let response = response as? HTTPURLResponse, let data = data else {
-					return completion(.failure(TransportError.noData))
-				}
-			
-				switch response.forcedStatusCode {
-				case 200...299:
-					completion(.success((response.allHeaderFields, data)))
-				default:
-					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
-				}
-				
+			if let error = error {
+				return completion(.failure(error))
 			}
 			
+			guard let response = response as? HTTPURLResponse, let data = data else {
+				return completion(.failure(TransportError.noData))
+			}
+		
+			switch response.forcedStatusCode {
+			case 200...299:
+				completion(.success((response.allHeaderFields, data)))
+			default:
+				completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+			}
+				
 		}
 		
 		task.resume()

@@ -22,7 +22,7 @@ extension Transport {
 				do {
 					if let data = data {
 						let decoder = JSONDecoder()
-						decoder.dateDecodingStrategy = .formatted(DateFormatter.rfc3339DateFormatter)
+						decoder.dateDecodingStrategy = .iso8601
 						let decoded = try decoder.decode(R.self, from: data)
 						completion(.success((headers, decoded)))
 					} else {
@@ -93,7 +93,7 @@ extension Transport {
 				do {
 					if let data = data {
 						let decoder = JSONDecoder()
-						decoder.dateDecodingStrategy = .formatted(DateFormatter.rfc3339DateFormatter)
+						decoder.dateDecodingStrategy = .iso8601
 						let decoded = try decoder.decode(R.self, from: data)
 						completion(.success((headers, decoded)))
 					} else {
