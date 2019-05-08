@@ -13,20 +13,20 @@ extension Transport {
 	/**
 	 Sends an HTTP get and returns JSON object(s)
 	 */
-	public func send<R: Decodable>(request: URLRequest, resultType: R.Type, completion: @escaping (Result<(HTTPHeaders, R?), Error>) -> Void) {
+	public func send<R: Decodable>(request: URLRequest, resultType: R.Type, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
 		
 		send(request: request) { result in
 			
 			switch result {
-			case .success(let (headers, data)):
+			case .success(let (response, data)):
 				do {
-					if let data = data {
+					if let data = data, !data.isEmpty {
 						let decoder = JSONDecoder()
 						decoder.dateDecodingStrategy = .iso8601
 						let decoded = try decoder.decode(R.self, from: data)
-						completion(.success((headers, decoded)))
+						completion(.success((response, decoded)))
 					} else {
-						completion(.success((headers, nil)))
+						completion(.success((response, nil)))
 					}
 				} catch {
 					completion(.failure(error))
@@ -72,7 +72,7 @@ extension Transport {
 	/**
 	Sends the specified HTTP method with a JSON payload and returns JSON object(s).
 	*/
-	public func send<P: Encodable, R: Decodable>(request: URLRequest, method: String, payload: P, resultType: R.Type, completion: @escaping (Result<(HTTPHeaders, R?), Error>) -> Void) {
+	public func send<P: Encodable, R: Decodable>(request: URLRequest, method: String, payload: P, resultType: R.Type, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
 		
 		var postRequest = request
 		postRequest.httpMethod = method
@@ -89,15 +89,15 @@ extension Transport {
 		send(request: postRequest, payload: data) { result in
 			
 			switch result {
-			case .success(let (headers, data)):
+			case .success(let (response, data)):
 				do {
-					if let data = data {
+					if let data = data, !data.isEmpty {
 						let decoder = JSONDecoder()
 						decoder.dateDecodingStrategy = .iso8601
 						let decoded = try decoder.decode(R.self, from: data)
-						completion(.success((headers, decoded)))
+						completion(.success((response, decoded)))
 					} else {
-						completion(.success((headers, nil)))
+						completion(.success((response, nil)))
 					}
 				} catch {
 					completion(.failure(error))

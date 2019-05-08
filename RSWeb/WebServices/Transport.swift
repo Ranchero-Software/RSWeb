@@ -39,18 +39,18 @@ public protocol Transport {
 	/**
 	Sends URLRequest and returns the HTTP headers and the data payload.
 	*/
-	func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void)
+	func send(request: URLRequest, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void)
 	
 	/**
 	Sends URLRequest with a data payload and returns the HTTP headers and the data payload.
 	*/
-	func send(request: URLRequest, payload: Data, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void)
+	func send(request: URLRequest, payload: Data, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void)
 	
 }
 
 extension URLSession: Transport {
 	
-	public func send(request: URLRequest, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void) {
+	public func send(request: URLRequest, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void) {
 		
 		let task = self.dataTask(with: request) { (data, response, error) in
 			
@@ -63,10 +63,8 @@ extension URLSession: Transport {
 			}
 		
 			switch response.forcedStatusCode {
-			case 200...299:
-				completion(.success((response.allHeaderFields, data)))
-			case HTTPResponseCode.notModified:
-				completion(.success((response.allHeaderFields, nil)))
+			case 200...399:
+				completion(.success((response, data)))
 			default:
 				completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
 			}
@@ -76,7 +74,7 @@ extension URLSession: Transport {
 		
 	}
 
-	public func send(request: URLRequest, payload: Data, completion: @escaping (Result<(HTTPHeaders, Data?), Error>) -> Void) {
+	public func send(request: URLRequest, payload: Data, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void) {
 		
 		let task = self.uploadTask(with: request, from: payload) { (data, response, error) in
 			
@@ -89,8 +87,8 @@ extension URLSession: Transport {
 			}
 		
 			switch response.forcedStatusCode {
-			case 200...299:
-				completion(.success((response.allHeaderFields, data)))
+			case 200...399:
+				completion(.success((response, data)))
 			default:
 				completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
 			}
