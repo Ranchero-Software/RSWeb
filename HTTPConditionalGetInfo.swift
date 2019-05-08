@@ -27,7 +27,7 @@ public struct HTTPConditionalGetInfo: Codable, Equatable {
 		self.init(lastModified: lastModified, etag: etag)
 	}
 
-	public init?(headers: HTTPHeaders) {
+	public init?(headers: [AnyHashable : Any]) {
 		let lastModified = headers[HTTPResponseHeader.lastModified] as? String
 		let etag = headers[HTTPResponseHeader.etag] as? String
 		self.init(lastModified: lastModified, etag: etag)

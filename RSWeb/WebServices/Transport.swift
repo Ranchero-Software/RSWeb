@@ -9,8 +9,6 @@
 
 import Foundation
 
-public typealias HTTPHeaders = [AnyHashable : Any]
-
 public enum TransportError: LocalizedError {
 	case noData
 	case httpError(status: Int)
