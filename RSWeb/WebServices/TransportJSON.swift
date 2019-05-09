@@ -45,7 +45,6 @@ extension Transport {
 	public func send<P: Encodable>(request: URLRequest, method: String, payload: P, completion: @escaping (Result<Void, Error>) -> Void) {
 		
 		var postRequest = request
-		postRequest.httpMethod = method
 		postRequest.addValue("application/json; charset=utf-8", forHTTPHeaderField: HTTPRequestHeader.contentType)
 
 		let data: Data
@@ -56,7 +55,7 @@ extension Transport {
 			return
 		}
 		
-		send(request: postRequest, payload: data) { result in
+		send(request: postRequest, method: method, payload: data) { result in
 			
 			switch result {
 			case .success(_, _):
@@ -75,7 +74,6 @@ extension Transport {
 	public func send<P: Encodable, R: Decodable>(request: URLRequest, method: String, payload: P, resultType: R.Type, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
 		
 		var postRequest = request
-		postRequest.httpMethod = method
 		postRequest.addValue("application/json; charset=utf-8", forHTTPHeaderField: HTTPRequestHeader.contentType)
 
 		let data: Data
@@ -86,7 +84,7 @@ extension Transport {
 			return
 		}
 		
-		send(request: postRequest, payload: data) { result in
+		send(request: postRequest, method: method, payload: data) { result in
 			
 			switch result {
 			case .success(let (response, data)):

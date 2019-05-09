@@ -40,9 +40,14 @@ public protocol Transport {
 	func send(request: URLRequest, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void)
 	
 	/**
+	Sends URLRequest that doesn't require any result information.
+	*/
+	func send(request: URLRequest, method: String, completion: @escaping (Result<Void, Error>) -> Void)
+	
+	/**
 	Sends URLRequest with a data payload and returns the HTTP headers and the data payload.
 	*/
-	func send(request: URLRequest, payload: Data, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void)
+	func send(request: URLRequest, method: String, payload: Data, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void)
 	
 }
 
@@ -72,9 +77,39 @@ extension URLSession: Transport {
 		
 	}
 
-	public func send(request: URLRequest, payload: Data, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void) {
+	public func send(request: URLRequest, method: String, completion: @escaping (Result<Void, Error>) -> Void) {
 		
-		let task = self.uploadTask(with: request, from: payload) { (data, response, error) in
+		var sendRequest = request
+		sendRequest.httpMethod = method
+		
+		let task = self.dataTask(with: sendRequest) { (data, response, error) in
+			
+			if let error = error {
+				return completion(.failure(error))
+			}
+			
+			guard let response = response as? HTTPURLResponse else {
+				return completion(.failure(TransportError.noData))
+			}
+			
+			switch response.forcedStatusCode {
+			case 200...399:
+				completion(.success(()))
+			default:
+				completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+			}
+		}
+		
+		task.resume()
+		
+	}
+	
+	public func send(request: URLRequest, method: String, payload: Data, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void) {
+		
+		var sendRequest = request
+		sendRequest.httpMethod = method
+		
+		let task = self.uploadTask(with: sendRequest, from: payload) { (data, response, error) in
 			
 			if let error = error {
 				return completion(.failure(error))
