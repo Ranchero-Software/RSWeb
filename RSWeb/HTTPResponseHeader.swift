@@ -13,6 +13,7 @@ public struct HTTPResponseHeader {
 	public static let contentType = "Content-Type"
 	public static let location = "Location"
 	public static let link = "Links"
+	public static let date = "Date"
 
 	// Conditional GET. See:
 	// http://fishbowl.pastiche.org/2002/10/21/http_conditional_get_for_rss_hackers/
