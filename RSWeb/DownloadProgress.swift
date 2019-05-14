@@ -59,6 +59,18 @@ public final class DownloadProgress {
 		numberOfTasks = numberOfTasks + n
 	}
 	
+	public func addToNumberOfTasksAndRemaining(_ n: Int) {
+		
+		numberOfTasks = numberOfTasks + n
+		numberRemaining = numberRemaining + n
+	}
+
+	public func completeTask() {
+		if numberRemaining > 0 {
+			numberRemaining = numberRemaining - 1
+		}
+	}
+	
 	public func clear() {
 		
 		numberOfTasks = 0
@@ -70,7 +82,8 @@ public final class DownloadProgress {
 private extension DownloadProgress {
 	
 	func postDidChangeNotification() {
-		
-		NotificationCenter.default.post(name: .DownloadProgressDidChange, object: self)
+		DispatchQueue.main.async {
+			NotificationCenter.default.post(name: .DownloadProgressDidChange, object: self)
+		}
 	}
 }
