@@ -17,6 +17,8 @@ public enum TransportError: LocalizedError {
 		switch self {
 		case .httpError(let status):
 			switch status {
+			case 401:
+				return NSLocalizedString("User credentials are invalid or expired.", comment: "Invalid credentials")
 			default:
 				let msg = NSLocalizedString("An unexpected network error occurred.  HTTP Status: ", comment: "Unexpected error")
 				return "\(msg) \(status)"
@@ -27,7 +29,17 @@ public enum TransportError: LocalizedError {
 	}
 	
 	public var recoverySuggestion: String? {
-		return NSLocalizedString("Please try again later.", comment: "Try later")
+		switch self {
+		case .httpError(let status):
+			switch status {
+			case 401:
+				return NSLocalizedString("Please update your credentials in the application preferences.", comment: "Update preferences")
+			default:
+				return NSLocalizedString("Please try again later ", comment: "Try later")
+			}
+		default:
+			return NSLocalizedString("Please try again later ", comment: "Try later")
+		}
 	}
 	
 }
