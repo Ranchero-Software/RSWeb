@@ -24,6 +24,13 @@ public extension URLRequest {
 			let base64 = data?.base64EncodedString()
 			let auth = "Basic \(base64 ?? "")"
 			setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
+        case .googleLogin(_, _, _, let apiKey):
+            guard let apiKey = apiKey else {
+                // If we don't have an api_key yet, just return
+                return
+            }
+            let auth = "GoogleLogin auth=\(apiKey)"
+            setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
 		}
 		
 		guard let conditionalGet = conditionalGet else {

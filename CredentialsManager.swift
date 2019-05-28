@@ -15,6 +15,11 @@ public struct CredentialsManager {
 		switch credentials {
 		case .basic(let username, let password):
 			try storeBasicCredentials(server: server, username: username, password: password)
+        case .googleLogin(let username, _, _, let apiKey):
+            guard let apiKey = apiKey else {
+                throw CredentialsError.incompleteCredentials
+            }
+            try storeBasicCredentials(server: server, username: username, password: apiKey)
 		}
 		
 	}
