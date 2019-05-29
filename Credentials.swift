@@ -15,7 +15,8 @@ public enum CredentialsError: Error {
 
 public enum Credentials {
     case basic(username: String, password: String)
-    case googleLogin(username: String, password: String, apiUrl: URL, apiKey: String?)
+    case googleBasicLogin(username: String, password: String, url: URL)
+    case googleAuthLogin(username: String, apiKey: String, url: URL)
 //	case oauth2(token: String)
 }
 

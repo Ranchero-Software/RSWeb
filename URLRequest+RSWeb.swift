@@ -24,11 +24,12 @@ public extension URLRequest {
 			let base64 = data?.base64EncodedString()
 			let auth = "Basic \(base64 ?? "")"
 			setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
-        case .googleLogin(_, _, _, let apiKey):
-            guard let apiKey = apiKey else {
-                // If we don't have an api_key yet, just return
-                return
-            }
+        case .googleBasicLogin(let username, let password, _):
+            setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            httpMethod = "POST"
+            let postData = "Email=\(username)&Passwd=\(password)"
+            httpBody = postData.data(using: String.Encoding.utf8)
+        case .googleAuthLogin(_, let apiKey, _):
             let auth = "GoogleLogin auth=\(apiKey)"
             setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
 		}
