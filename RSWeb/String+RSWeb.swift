@@ -17,4 +17,14 @@ public extension String {
 		}
 		return encodedString.replacingOccurrences(of: "&", with: "%38")
 	}
+	
+	func escapeHTML() -> String {
+		var result = self.replacingOccurrences(of: "&", with: "&amp;")
+		result = result.replacingOccurrences(of: "\"", with: "&quot;")
+		result = result.replacingOccurrences(of: "'", with: "&#x27;")
+		result = result.replacingOccurrences(of: ">", with: "&gt;")
+		result = result.replacingOccurrences(of: "<", with: "&lt;")
+		return result
+	}
+	
 }
