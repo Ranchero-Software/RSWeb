@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		510C86182288EBB400FA2488 /* HTTPDateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C86172288EBB400FA2488 /* HTTPDateInfo.swift */; };
 		510C86192288EBB400FA2488 /* HTTPDateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C86172288EBB400FA2488 /* HTTPDateInfo.swift */; };
+		5113B87122ADBAFC0018040E /* String+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409DB2F200AE81400CE879E /* String+RSWeb.swift */; };
 		51D58752227ED15F00900287 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D58751227ED15F00900287 /* CredentialsManager.swift */; };
 		51D58753227ED15F00900287 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D58751227ED15F00900287 /* CredentialsManager.swift */; };
 		51D587622280554B00900287 /* TransportJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D587612280554B00900287 /* TransportJSON.swift */; };
@@ -455,6 +456,7 @@
 				510C86192288EBB400FA2488 /* HTTPDateInfo.swift in Sources */,
 				842ED2EB1E12FB91000CF738 /* HTTPMethod.swift in Sources */,
 				51EC99D0227DBC1F002E55C9 /* Transport.swift in Sources */,
+				5113B87122ADBAFC0018040E /* String+RSWeb.swift in Sources */,
 				842ED2F11E12FB9B000CF738 /* HTTPResponseHeader.swift in Sources */,
 				842ED3061E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */,
 				842ED2F41E12FBAA000CF738 /* DownloadSession.swift in Sources */,
