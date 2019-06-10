@@ -8,6 +8,8 @@
 
 import Foundation
 
+// Main thread only.
+
 public typealias OneShotDownloadCallback = (Data?, URLResponse?, Error?) -> Swift.Void
 
 private final class OneShotDownloadManager {
@@ -60,10 +62,12 @@ private final class OneShotDownloadManager {
 // callback is called on the main queue.
 
 public func download(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
+	precondition(Thread.isMainThread)
 	OneShotDownloadManager.shared.download(url, callback)
 }
 
 public func download(_ urlRequest: URLRequest, _ callback: @escaping OneShotDownloadCallback) {
+	precondition(Thread.isMainThread)
 	OneShotDownloadManager.shared.download(urlRequest, callback)
 }
 
@@ -176,6 +180,6 @@ private final class DownloadWithCacheManager {
 }
 
 public func downloadUsingCache(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
-
+	precondition(Thread.isMainThread)
 	DownloadWithCacheManager.shared.download(url, callback)
 }
