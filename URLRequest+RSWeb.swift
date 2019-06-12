@@ -24,6 +24,14 @@ public extension URLRequest {
 			let base64 = data?.base64EncodedString()
 			let auth = "Basic \(base64 ?? "")"
 			setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
+        case .googleBasicLogin(let username, let password):
+            setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            httpMethod = "POST"
+            let postData = "Email=\(username)&Passwd=\(password)"
+            httpBody = postData.data(using: String.Encoding.utf8)
+        case .googleAuthLogin(_, let apiKey):
+            let auth = "GoogleLogin auth=\(apiKey)"
+            setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
 		}
 		
 		guard let conditionalGet = conditionalGet else {

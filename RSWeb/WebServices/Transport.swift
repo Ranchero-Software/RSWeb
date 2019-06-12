@@ -11,6 +11,7 @@ import Foundation
 
 public enum TransportError: LocalizedError {
 	case noData
+    case noURL
 	case httpError(status: Int)
 	
 	public var errorDescription: String? {

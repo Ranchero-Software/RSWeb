@@ -107,5 +107,34 @@ extension Transport {
 		}
 		
 	}
+    
+    /**
+     Sends the specified HTTP method with a Raw payload and returns JSON object(s).
+     */
+    public func send<R: Decodable>(request: URLRequest, method: String, data: Data, resultType: R.Type, dateDecoding: JSONDecoder.DateDecodingStrategy = .iso8601, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
+                
+        send(request: request, method: method, payload: data) { result in
+            
+            switch result {
+            case .success(let (response, data)):
+                do {
+                    if let data = data, !data.isEmpty {
+                        let decoder = JSONDecoder()
+                        decoder.dateDecodingStrategy = dateDecoding
+                        let decoded = try decoder.decode(R.self, from: data)
+                        completion(.success((response, decoded)))
+                    } else {
+                        completion(.success((response, nil)))
+                    }
+                } catch {
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+            
+        }
+        
+    }
 	
 }
