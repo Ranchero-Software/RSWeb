@@ -153,7 +153,6 @@ extension URLSession: Transport {
 				}
 			}
 		}
-		
 		task.resume()
 	}
 
@@ -180,7 +179,6 @@ extension URLSession: Transport {
 				}
 			}
 		}
-		
 		task.resume()
 	}
 	
