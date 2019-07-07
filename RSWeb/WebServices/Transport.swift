@@ -137,25 +137,24 @@ extension URLSession: Transport {
 	public func send(request: URLRequest, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void) {
 		
 		let task = self.dataTask(with: request) { (data, response, error) in
-			
-			if let error = error {
-				return completion(.failure(error))
-			}
-			
-			guard let response = response as? HTTPURLResponse, let data = data else {
-				return completion(.failure(TransportError.noData))
-			}
-		
-			switch response.forcedStatusCode {
-			case 200...399:
-				completion(.success((response, data)))
-			default:
-				completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+			DispatchQueue.main.async {
+				if let error = error {
+					return completion(.failure(error))
+				}
+
+				guard let response = response as? HTTPURLResponse, let data = data else {
+					return completion(.failure(TransportError.noData))
+				}
+
+				switch response.forcedStatusCode {
+				case 200...399:
+					completion(.success((response, data)))
+				default:
+					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+				}
 			}
 		}
-		
 		task.resume()
-		
 	}
 
 	public func send(request: URLRequest, method: String, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -164,25 +163,25 @@ extension URLSession: Transport {
 		sendRequest.httpMethod = method
 		
 		let task = self.dataTask(with: sendRequest) { (data, response, error) in
-			
-			if let error = error {
-				return completion(.failure(error))
-			}
-			
-			guard let response = response as? HTTPURLResponse else {
-				return completion(.failure(TransportError.noData))
-			}
-			
-			switch response.forcedStatusCode {
-			case 200...399:
-				completion(.success(()))
-			default:
-				completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+			DispatchQueue.main.async {
+
+				if let error = error {
+					return completion(.failure(error))
+				}
+
+				guard let response = response as? HTTPURLResponse else {
+					return completion(.failure(TransportError.noData))
+				}
+
+				switch response.forcedStatusCode {
+				case 200...399:
+					completion(.success(()))
+				default:
+					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+				}
 			}
 		}
-		
 		task.resume()
-		
 	}
 	
 	public func send(request: URLRequest, method: String, payload: Data, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void) {
@@ -191,26 +190,25 @@ extension URLSession: Transport {
 		sendRequest.httpMethod = method
 		
 		let task = self.uploadTask(with: sendRequest, from: payload) { (data, response, error) in
-			
-			if let error = error {
-				return completion(.failure(error))
-			}
-			
-			guard let response = response as? HTTPURLResponse, let data = data else {
-				return completion(.failure(TransportError.noData))
-			}
-		
-			switch response.forcedStatusCode {
-			case 200...399:
-				completion(.success((response, data)))
-			default:
-				completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
-			}
+			DispatchQueue.main.async {
+				if let error = error {
+					return completion(.failure(error))
+				}
+
+				guard let response = response as? HTTPURLResponse, let data = data else {
+					return completion(.failure(TransportError.noData))
+				}
+
+				switch response.forcedStatusCode {
+				case 200...399:
+					completion(.success((response, data)))
+				default:
+					completion(.failure(TransportError.httpError(status: response.forcedStatusCode)))
+				}
 				
+			}
 		}
-		
 		task.resume()
-		
 	}
 	
 	public static func webserviceTransport() -> Transport {
@@ -229,7 +227,5 @@ extension URLSession: Transport {
 		}
 		
 		return URLSession(configuration: sessionConfiguration)
-	
 	}
-	
 }
