@@ -15,9 +15,9 @@ public struct CredentialsManager {
 		switch credentials {
 		case .basic(let username, let password):
 			try storeBasicCredentials(server: server, username: username, password: password)
-        case .googleBasicLogin(let username, let password):
+        case .readerAPIBasicLogin(let username, let password):
             try storeBasicCredentials(server: server, username: username, password: password)
-        case .googleAuthLogin(let username, let apiKey):
+        case .readerAPIAuthLogin(let username, let apiKey):
             try storeBasicCredentials(server: server, username: username, password: apiKey)
 		}
 		
@@ -69,7 +69,7 @@ public struct CredentialsManager {
 		
 	}
     
-    public static func retrieveGoogleAuthCredentials(server: String, username: String) throws -> Credentials? {
+    public static func retrieveReaderAPIAuthCredentials(server: String, username: String) throws -> Credentials? {
         
         let query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                     kSecAttrAccount as String: username,
@@ -95,11 +95,11 @@ public struct CredentialsManager {
                 return nil
         }
         
-        return Credentials.googleAuthLogin(username: username, apiKey: password)
+        return Credentials.readerAPIAuthLogin(username: username, apiKey: password)
         
     }
     
-    public static func removeGoogleAuthCredentials(server: String, username: String) throws {
+    public static func removeReaderAPIAuthCredentials(server: String, username: String) throws {
         
         let query: [String: Any] = [kSecClass as String: kSecClassInternetPassword,
                                     kSecAttrAccount as String: username,
