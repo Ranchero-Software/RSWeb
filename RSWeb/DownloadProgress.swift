@@ -8,6 +8,8 @@
 
 import Foundation
 
+// Main thread only.
+
 public extension Notification.Name {
 	
 	static let DownloadProgressDidChange = Notification.Name(rawValue: "DownloadProgressDidChange")
@@ -49,33 +51,35 @@ public final class DownloadProgress {
 	}
 	
 	public var isComplete: Bool {
+		assert(Thread.isMainThread)
 		return numberRemaining < 1
 	}
 	
 	public init(numberOfTasks: Int) {
-		
+		assert(Thread.isMainThread)
 		self.numberOfTasks = numberOfTasks
 	}
 	
 	public func addToNumberOfTasks(_ n: Int) {
-		
+		assert(Thread.isMainThread)
 		numberOfTasks = numberOfTasks + n
 	}
 	
 	public func addToNumberOfTasksAndRemaining(_ n: Int) {
-		
+		assert(Thread.isMainThread)
 		numberOfTasks = numberOfTasks + n
 		numberRemaining = numberRemaining + n
 	}
 
 	public func completeTask() {
+		assert(Thread.isMainThread)
 		if numberRemaining > 0 {
 			numberRemaining = numberRemaining - 1
 		}
 	}
 	
 	public func clear() {
-		
+		assert(Thread.isMainThread)
 		numberOfTasks = 0
 	}
 }
