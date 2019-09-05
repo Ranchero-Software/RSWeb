@@ -32,7 +32,14 @@ public extension URLRequest {
         case .readerAPIAuthLogin(_, let apiKey):
             let auth = "GoogleLogin auth=\(apiKey)"
             setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
-		}
+        case .feedlyAccessToken(_, let token):
+            let auth = "OAuth \(token)"
+            setValue(auth, forHTTPHeaderField: "Authorization")
+        case .feedlyRefreshToken:
+            // https://developer.feedly.com/v3/auth/#refreshing-an-access-token
+            assertionFailure("Refresh tokens stored to refresh the Feedly access token. Did you mean to use `feedlyAccessToken` instead?")
+            break
+        }
 		
 		guard let conditionalGet = conditionalGet else {
 			return
