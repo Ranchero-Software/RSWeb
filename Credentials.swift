@@ -17,7 +17,7 @@ public enum Credentials {
     case basic(username: String, password: String)
     case readerAPIBasicLogin(username: String, password: String)
     case readerAPIAuthLogin(username: String, apiKey: String)
-    case feedlyAccessToken(username: String, token: String)
-    case feedlyRefreshToken(username: String, token: String)
+    case oauthAccessToken(username: String, token: String)
+    case oauthRefreshToken(username: String, token: String)
 }
 
