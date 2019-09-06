@@ -32,7 +32,18 @@ public extension URLRequest {
         case .readerAPIAuthLogin(_, let apiKey):
             let auth = "GoogleLogin auth=\(apiKey)"
             setValue(auth, forHTTPHeaderField: HTTPRequestHeader.authorization)
-		}
+        case .oauthAccessToken(_, let token):
+            let auth = "OAuth \(token)"
+            setValue(auth, forHTTPHeaderField: "Authorization")
+        case .oauthRefreshToken:
+            // While both access and refresh tokens are credentials, it seems the `Credentials` cases
+            // enumerates how the identity of the user can be proved rather than
+            // credentials-in-general, such as in this refresh token case,
+            // the authority to prove an identity.
+            // TODO: Refactor as usage becomes clearer.
+            assertionFailure("Refresh tokens are used to replace expired access tokens. Did you mean to use `accessToken` instead?")
+            break
+        }
 		
 		guard let conditionalGet = conditionalGet else {
 			return

@@ -19,7 +19,11 @@ public struct CredentialsManager {
             try storeBasicCredentials(server: server, username: username, password: password)
         case .readerAPIAuthLogin(let username, let apiKey):
             try storeBasicCredentials(server: server, username: username, password: apiKey)
-		}
+        case .oauthAccessToken(let username, let token):
+            try storeBasicCredentials(server: server, username: username, password: token)
+        case .oauthRefreshToken(let username, let token):
+            try storeBasicCredentials(server: server, username: username, password: token)
+        }
 		
 	}
 	
