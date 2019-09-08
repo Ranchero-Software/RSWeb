@@ -10,8 +10,6 @@
 		510C86182288EBB400FA2488 /* HTTPDateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C86172288EBB400FA2488 /* HTTPDateInfo.swift */; };
 		510C86192288EBB400FA2488 /* HTTPDateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C86172288EBB400FA2488 /* HTTPDateInfo.swift */; };
 		5113B87122ADBAFC0018040E /* String+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409DB2F200AE81400CE879E /* String+RSWeb.swift */; };
-		51D58752227ED15F00900287 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D58751227ED15F00900287 /* CredentialsManager.swift */; };
-		51D58753227ED15F00900287 /* CredentialsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D58751227ED15F00900287 /* CredentialsManager.swift */; };
 		51D587622280554B00900287 /* TransportJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D587612280554B00900287 /* TransportJSON.swift */; };
 		51D587632280554B00900287 /* TransportJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D587612280554B00900287 /* TransportJSON.swift */; };
 		51E49033228866A400C791F0 /* HTTPLinkPagingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E49032228866A400C791F0 /* HTTPLinkPagingInfo.swift */; };
@@ -21,8 +19,6 @@
 		8409DB2C200AE4D700CE879E /* Dictionary+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409DB2B200AE4D700CE879E /* Dictionary+RSWeb.swift */; };
 		8409DB2E200AE74400CE879E /* DictionaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409DB2D200AE74400CE879E /* DictionaryTests.swift */; };
 		8409DB30200AE81400CE879E /* String+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409DB2F200AE81400CE879E /* String+RSWeb.swift */; };
-		84245C5D1FDC697A0074AFBB /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84245C5C1FDC697A0074AFBB /* Credentials.swift */; };
-		84245C5E1FDC697A0074AFBB /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84245C5C1FDC697A0074AFBB /* Credentials.swift */; };
 		84261183200AE918004D89DD /* StringTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84261182200AE918004D89DD /* StringTests.swift */; };
 		842ED2E71E12FB8A000CF738 /* HTTPRequestHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED2E61E12FB8A000CF738 /* HTTPRequestHeader.swift */; };
 		842ED2E81E12FB8A000CF738 /* HTTPRequestHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED2E61E12FB8A000CF738 /* HTTPRequestHeader.swift */; };
@@ -46,8 +42,6 @@
 		842ED3031E12FBC7000CF738 /* HTTPConditionalGetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3011E12FBC7000CF738 /* HTTPConditionalGetInfo.swift */; };
 		842ED3051E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3041E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift */; };
 		842ED3061E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3041E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift */; };
-		842ED3081E12FBD2000CF738 /* URLRequest+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3071E12FBD2000CF738 /* URLRequest+RSWeb.swift */; };
-		842ED3091E12FBD2000CF738 /* URLRequest+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3071E12FBD2000CF738 /* URLRequest+RSWeb.swift */; };
 		842ED30B1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */; };
 		842ED30C1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */; };
 		842ED30E1E12FBDD000CF738 /* URLResponse+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED30D1E12FBDD000CF738 /* URLResponse+RSWeb.swift */; };
@@ -71,14 +65,12 @@
 
 /* Begin PBXFileReference section */
 		510C86172288EBB400FA2488 /* HTTPDateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPDateInfo.swift; sourceTree = "<group>"; };
-		51D58751227ED15F00900287 /* CredentialsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialsManager.swift; sourceTree = "<group>"; };
 		51D587612280554B00900287 /* TransportJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportJSON.swift; sourceTree = "<group>"; };
 		51E49032228866A400C791F0 /* HTTPLinkPagingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPLinkPagingInfo.swift; sourceTree = "<group>"; };
 		51EC99CE227DBC1F002E55C9 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
 		8409DB2B200AE4D700CE879E /* Dictionary+RSWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+RSWeb.swift"; sourceTree = "<group>"; };
 		8409DB2D200AE74400CE879E /* DictionaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionaryTests.swift; sourceTree = "<group>"; };
 		8409DB2F200AE81400CE879E /* String+RSWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "String+RSWeb.swift"; path = "RSWeb/String+RSWeb.swift"; sourceTree = "<group>"; };
-		84245C5C1FDC697A0074AFBB /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		84261182200AE918004D89DD /* StringTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringTests.swift; sourceTree = "<group>"; };
 		842ED2E61E12FB8A000CF738 /* HTTPRequestHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPRequestHeader.swift; path = RSWeb/HTTPRequestHeader.swift; sourceTree = "<group>"; };
 		842ED2E91E12FB91000CF738 /* HTTPMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPMethod.swift; path = RSWeb/HTTPMethod.swift; sourceTree = "<group>"; };
@@ -91,7 +83,6 @@
 		842ED2FE1E12FBC1000CF738 /* UserAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgent.swift; sourceTree = "<group>"; };
 		842ED3011E12FBC7000CF738 /* HTTPConditionalGetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConditionalGetInfo.swift; sourceTree = "<group>"; };
 		842ED3041E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+RSWeb.swift"; sourceTree = "<group>"; };
-		842ED3071E12FBD2000CF738 /* URLRequest+RSWeb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+RSWeb.swift"; sourceTree = "<group>"; };
 		842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "URL+RSWeb.swift"; path = "RSWeb/URL+RSWeb.swift"; sourceTree = "<group>"; };
 		842ED30D1E12FBDD000CF738 /* URLResponse+RSWeb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLResponse+RSWeb.swift"; sourceTree = "<group>"; };
 		842ED3101E12FBE1000CF738 /* MacWebBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MacWebBrowser.swift; path = RSWeb/MacWebBrowser.swift; sourceTree = "<group>"; };
@@ -164,8 +155,6 @@
 		849C08AC1E0CAC85006B03FA = {
 			isa = PBXGroup;
 			children = (
-				84245C5C1FDC697A0074AFBB /* Credentials.swift */,
-				51D58751227ED15F00900287 /* CredentialsManager.swift */,
 				8409DB2B200AE4D700CE879E /* Dictionary+RSWeb.swift */,
 				842ED3011E12FBC7000CF738 /* HTTPConditionalGetInfo.swift */,
 				510C86172288EBB400FA2488 /* HTTPDateInfo.swift */,
@@ -174,7 +163,6 @@
 				842ED3131E12FBE7000CF738 /* MimeType.swift */,
 				842ED3041E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift */,
 				8409DB2F200AE81400CE879E /* String+RSWeb.swift */,
-				842ED3071E12FBD2000CF738 /* URLRequest+RSWeb.swift */,
 				842ED30D1E12FBDD000CF738 /* URLResponse+RSWeb.swift */,
 				842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */,
 				842ED2FE1E12FBC1000CF738 /* UserAgent.swift */,
@@ -413,16 +401,13 @@
 				842ED2F61E12FBAF000CF738 /* OneShotDownload.swift in Sources */,
 				842ED2F31E12FBAA000CF738 /* DownloadSession.swift in Sources */,
 				510C86182288EBB400FA2488 /* HTTPDateInfo.swift in Sources */,
-				842ED3081E12FBD2000CF738 /* URLRequest+RSWeb.swift in Sources */,
 				842ED3051E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */,
 				51E49033228866A400C791F0 /* HTTPLinkPagingInfo.swift in Sources */,
 				51EC99CF227DBC1F002E55C9 /* Transport.swift in Sources */,
 				842ED2E71E12FB8A000CF738 /* HTTPRequestHeader.swift in Sources */,
 				8409DB30200AE81400CE879E /* String+RSWeb.swift in Sources */,
 				842ED3111E12FBE1000CF738 /* MacWebBrowser.swift in Sources */,
-				51D58752227ED15F00900287 /* CredentialsManager.swift in Sources */,
 				842ED3141E12FBE7000CF738 /* MimeType.swift in Sources */,
-				84245C5D1FDC697A0074AFBB /* Credentials.swift in Sources */,
 				842ED30B1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */,
 				842ED2F91E12FBB5000CF738 /* DownloadProgress.swift in Sources */,
 				842ED2EA1E12FB91000CF738 /* HTTPMethod.swift in Sources */,
@@ -446,7 +431,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				842ED3091E12FBD2000CF738 /* URLRequest+RSWeb.swift in Sources */,
 				842ED2F71E12FBAF000CF738 /* OneShotDownload.swift in Sources */,
 				842ED30F1E12FBDD000CF738 /* URLResponse+RSWeb.swift in Sources */,
 				842ED2E81E12FB8A000CF738 /* HTTPRequestHeader.swift in Sources */,
@@ -460,8 +444,6 @@
 				842ED2F11E12FB9B000CF738 /* HTTPResponseHeader.swift in Sources */,
 				842ED3061E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */,
 				842ED2F41E12FBAA000CF738 /* DownloadSession.swift in Sources */,
-				51D58753227ED15F00900287 /* CredentialsManager.swift in Sources */,
-				84245C5E1FDC697A0074AFBB /* Credentials.swift in Sources */,
 				842ED2EE1E12FB97000CF738 /* HTTPResponseCode.swift in Sources */,
 				842ED30C1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */,
 				842ED3151E12FBE7000CF738 /* MimeType.swift in Sources */,
