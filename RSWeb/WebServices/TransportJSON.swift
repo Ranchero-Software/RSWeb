@@ -13,7 +13,7 @@ extension Transport {
 	/**
 	 Sends an HTTP get and returns JSON object(s)
 	 */
-	public func send<R: Decodable>(request: URLRequest, resultType: R.Type, dateDecoding: JSONDecoder.DateDecodingStrategy = .iso8601, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
+    public func send<R: Decodable>(request: URLRequest, resultType: R.Type, dateDecoding: JSONDecoder.DateDecodingStrategy = .iso8601, keyDecoding: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
 		
 		send(request: request) { result in
 			DispatchQueue.main.async {
@@ -24,6 +24,7 @@ extension Transport {
 						if let data = data, !data.isEmpty {
 							let decoder = JSONDecoder()
 							decoder.dateDecodingStrategy = dateDecoding
+                            decoder.keyDecodingStrategy = keyDecoding
 							let decoded = try decoder.decode(R.self, from: data)
 							completion(.success((response, decoded)))
 						} else {
@@ -70,7 +71,7 @@ extension Transport {
 	/**
 	Sends the specified HTTP method with a JSON payload and returns JSON object(s).
 	*/
-	public func send<P: Encodable, R: Decodable>(request: URLRequest, method: String, payload: P, resultType: R.Type, dateDecoding: JSONDecoder.DateDecodingStrategy = .iso8601, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
+	public func send<P: Encodable, R: Decodable>(request: URLRequest, method: String, payload: P, resultType: R.Type, dateDecoding: JSONDecoder.DateDecodingStrategy = .iso8601, keyDecoding: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
 		
 		var postRequest = request
 		postRequest.addValue("application/json; charset=utf-8", forHTTPHeaderField: HTTPRequestHeader.contentType)
@@ -92,6 +93,7 @@ extension Transport {
 						if let data = data, !data.isEmpty {
 							let decoder = JSONDecoder()
 							decoder.dateDecodingStrategy = dateDecoding
+                            decoder.keyDecodingStrategy = keyDecoding
 							let decoded = try decoder.decode(R.self, from: data)
 							completion(.success((response, decoded)))
 						} else {
@@ -110,7 +112,7 @@ extension Transport {
     /**
      Sends the specified HTTP method with a Raw payload and returns JSON object(s).
      */
-	public func send<R: Decodable>(request: URLRequest, method: String, data: Data, resultType: R.Type, dateDecoding: JSONDecoder.DateDecodingStrategy = .iso8601, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
+	public func send<R: Decodable>(request: URLRequest, method: String, data: Data, resultType: R.Type, dateDecoding: JSONDecoder.DateDecodingStrategy = .iso8601, keyDecoding: JSONDecoder.KeyDecodingStrategy = .useDefaultKeys, completion: @escaping (Result<(HTTPURLResponse, R?), Error>) -> Void) {
 
 		send(request: request, method: method, payload: data) { result in
 			DispatchQueue.main.async {
@@ -121,6 +123,7 @@ extension Transport {
 						if let data = data, !data.isEmpty {
 							let decoder = JSONDecoder()
 							decoder.dateDecodingStrategy = dateDecoding
+                            decoder.keyDecodingStrategy = keyDecoding
 							let decoded = try decoder.decode(R.self, from: data)
 							completion(.success((response, decoded)))
 						} else {
