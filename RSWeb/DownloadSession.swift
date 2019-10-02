@@ -22,6 +22,8 @@ public protocol DownloadSessionDelegate {
 	func downloadSession(_ downloadSession: DownloadSession, didReceiveUnexpectedResponse: URLResponse, representedObject: AnyObject)
 
 	func downloadSession(_ downloadSession: DownloadSession, didReceiveNotModifiedResponse: URLResponse, representedObject: AnyObject)
+	
+	func downloadSessionDidCompleteDownloadObjects(_ downloadSession: DownloadSession)
 }
 
 
@@ -186,6 +188,7 @@ private extension DownloadSession {
 		if progress.numberRemaining < 1 {
 			progress.clear()
 			representedObjects.removeAllObjects()
+			delegate.downloadSessionDidCompleteDownloadObjects(self)
 		}
 	}
 	
