@@ -20,19 +20,31 @@ extension Transport {
 
 				switch result {
 				case .success(let (response, data)):
-					do {
-						if let data = data, !data.isEmpty {
+					if let data = data, !data.isEmpty {
+						// PBS 27 Sep. 2019: decode the JSON on a background thread.
+						// The profiler says that this is 45% of what’s happening on the main thread
+						// during an initial sync with Feedbin.
+						DispatchQueue.global(qos: .background).async {
 							let decoder = JSONDecoder()
 							decoder.dateDecodingStrategy = dateDecoding
-                            decoder.keyDecodingStrategy = keyDecoding
-							let decoded = try decoder.decode(R.self, from: data)
-							completion(.success((response, decoded)))
-						} else {
-							completion(.success((response, nil)))
+							decoder.keyDecodingStrategy = keyDecoding
+							do {
+								let decoded = try decoder.decode(R.self, from: data)
+								DispatchQueue.main.async {
+									completion(.success((response, decoded)))
+								}
+							}
+							catch {
+								DispatchQueue.main.async {
+									completion(.failure(error))
+								}
+							}
 						}
-					} catch {
-						completion(.failure(error))
 					}
+					else {
+						completion(.success((response, nil)))
+					}
+
 				case .failure(let error):
 					completion(.failure(error))
 				}
@@ -55,7 +67,7 @@ extension Transport {
 			completion(.failure(error))
 			return
 		}
-		
+
 		send(request: postRequest, method: method, payload: data) { result in
 			DispatchQueue.main.async {
 				switch result {
