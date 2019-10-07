@@ -327,7 +327,6 @@
 				TargetAttributes = {
 					849C08B51E0CAC85006B03FA = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = SHJK2V3AJG;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -338,7 +337,6 @@
 					};
 					849C08D41E0CACA3006B03FA = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = SHJK2V3AJG;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
