@@ -269,6 +269,7 @@
 				849C08B21E0CAC85006B03FA /* Frameworks */,
 				849C08B31E0CAC85006B03FA /* Headers */,
 				849C08B41E0CAC85006B03FA /* Resources */,
+				51C8F347234FB08A0048ED95 /* Run Script: Verify No Build Settings */,
 			);
 			buildRules = (
 			);
@@ -305,6 +306,7 @@
 				849C08D11E0CACA3006B03FA /* Frameworks */,
 				849C08D21E0CACA3006B03FA /* Headers */,
 				849C08D31E0CACA3006B03FA /* Resources */,
+				51C8F348234FB09D0048ED95 /* Run Script: Verify No Build Settings */,
 			);
 			buildRules = (
 			);
@@ -327,6 +329,7 @@
 				TargetAttributes = {
 					849C08B51E0CAC85006B03FA = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = SHJK2V3AJG;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -337,6 +340,7 @@
 					};
 					849C08D41E0CACA3006B03FA = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = SHJK2V3AJG;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
@@ -385,6 +389,45 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		51C8F347234FB08A0048ED95 /* Run Script: Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script: Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "xcrun -sdk macosx swiftc -target x86_64-macosx10.11  buildscripts/VerifyNoBuildSettings.swift -o $CONFIGURATION_TEMP_DIR/VerifyNoBS\n$CONFIGURATION_TEMP_DIR/VerifyNoBS ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+		};
+		51C8F348234FB09D0048ED95 /* Run Script: Verify No Build Settings */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Script: Verify No Build Settings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "xcrun -sdk macosx swiftc -target x86_64-macosx10.11  buildscripts/VerifyNoBuildSettings.swift -o $CONFIGURATION_TEMP_DIR/VerifyNoBS\n$CONFIGURATION_TEMP_DIR/VerifyNoBS ${PROJECT_NAME}.xcodeproj/project.pbxproj\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		849C08B11E0CAC85006B03FA /* Sources */ = {
