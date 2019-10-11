@@ -66,6 +66,7 @@
 
 /* Begin PBXFileReference section */
 		510C86172288EBB400FA2488 /* HTTPDateInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPDateInfo.swift; sourceTree = "<group>"; };
+		518B2EAD235137AC00400001 /* RSWeb_project_test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = RSWeb_project_test.xcconfig; sourceTree = "<group>"; };
 		51D587612280554B00900287 /* TransportJSON.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransportJSON.swift; sourceTree = "<group>"; };
 		51E49032228866A400C791F0 /* HTTPLinkPagingInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPLinkPagingInfo.swift; sourceTree = "<group>"; };
 		51EC99CE227DBC1F002E55C9 /* Transport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transport.swift; sourceTree = "<group>"; };
@@ -231,6 +232,7 @@
 			children = (
 				D511EF2220242EDA00712EC3 /* RSWeb_project.xcconfig */,
 				D511EF2120242EDA00712EC3 /* RSWeb_project_debug.xcconfig */,
+				518B2EAD235137AC00400001 /* RSWeb_project_test.xcconfig */,
 				D511EF2420242EDA00712EC3 /* RSWeb_project_release.xcconfig */,
 				D511EF2320242EDA00712EC3 /* RSWeb_target.xcconfig */,
 				D511EF33202464A200712EC3 /* RSWeb_ios_target.xcconfig */,
@@ -507,6 +509,34 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		51EC8949235120B10061B6F6 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 518B2EAD235137AC00400001 /* RSWeb_project_test.xcconfig */;
+			buildSettings = {
+			};
+			name = Test;
+		};
+		51EC894A235120B10061B6F6 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D511EF32202464A100712EC3 /* RSWeb_mac_target.xcconfig */;
+			buildSettings = {
+			};
+			name = Test;
+		};
+		51EC894B235120B10061B6F6 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D511EF2520242EDA00712EC3 /* RSWebTests_target.xcconfig */;
+			buildSettings = {
+			};
+			name = Test;
+		};
+		51EC894C235120B10061B6F6 /* Test */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D511EF35202464A200712EC3 /* RSWeb_ios_target_debug.xcconfig */;
+			buildSettings = {
+			};
+			name = Test;
+		};
 		849C08C81E0CAC86006B03FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D511EF2120242EDA00712EC3 /* RSWeb_project_debug.xcconfig */;
@@ -570,6 +600,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				849C08C81E0CAC86006B03FA /* Debug */,
+				51EC8949235120B10061B6F6 /* Test */,
 				849C08C91E0CAC86006B03FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -579,6 +610,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				849C08CB1E0CAC86006B03FA /* Debug */,
+				51EC894A235120B10061B6F6 /* Test */,
 				849C08CC1E0CAC86006B03FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -588,6 +620,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				849C08CE1E0CAC86006B03FA /* Debug */,
+				51EC894B235120B10061B6F6 /* Test */,
 				849C08CF1E0CAC86006B03FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -597,6 +630,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				849C08DB1E0CACA3006B03FA /* Debug */,
+				51EC894C235120B10061B6F6 /* Test */,
 				849C08DC1E0CACA3006B03FA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
