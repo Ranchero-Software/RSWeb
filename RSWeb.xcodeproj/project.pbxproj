@@ -10,6 +10,7 @@
 		510C86182288EBB400FA2488 /* HTTPDateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C86172288EBB400FA2488 /* HTTPDateInfo.swift */; };
 		510C86192288EBB400FA2488 /* HTTPDateInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510C86172288EBB400FA2488 /* HTTPDateInfo.swift */; };
 		5113B87122ADBAFC0018040E /* String+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409DB2F200AE81400CE879E /* String+RSWeb.swift */; };
+		512B10A02350E52A009C4920 /* Dictionary+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409DB2B200AE4D700CE879E /* Dictionary+RSWeb.swift */; };
 		51D587622280554B00900287 /* TransportJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D587612280554B00900287 /* TransportJSON.swift */; };
 		51D587632280554B00900287 /* TransportJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51D587612280554B00900287 /* TransportJSON.swift */; };
 		51E49033228866A400C791F0 /* HTTPLinkPagingInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51E49032228866A400C791F0 /* HTTPLinkPagingInfo.swift */; };
@@ -485,6 +486,7 @@
 				842ED2F11E12FB9B000CF738 /* HTTPResponseHeader.swift in Sources */,
 				842ED3061E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */,
 				842ED2F41E12FBAA000CF738 /* DownloadSession.swift in Sources */,
+				512B10A02350E52A009C4920 /* Dictionary+RSWeb.swift in Sources */,
 				842ED2EE1E12FB97000CF738 /* HTTPResponseCode.swift in Sources */,
 				842ED30C1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */,
 				842ED3151E12FBE7000CF738 /* MimeType.swift in Sources */,

@@ -6,7 +6,12 @@ jobs:
   build:
 
     runs-on: macOS-latest
-    
+    strategy: 
+      matrix:
+        run-config:
+          - { scheme: 'RSWeb', destination: 'platform=macOS'}
+          - { scheme: 'RSWebiOS', destination: 'platform=iOS Simulator,OS=13.0,name=iPhone 11' }
+
     steps:
     - name: Checkout Project
       uses: actions/checkout@v1
@@ -22,6 +27,12 @@ jobs:
       
     - name: Build SDK
       run: xcodebuild -showsdks
+    
+    - name: Show Available Destinations
+      run: xcodebuild -scheme RSWebiOS -showdestinations
 
     - name: Run Build
-      run: xcodebuild -scheme RSWebTests test -showBuildTimingSummary CODE_SIGN_IDENTITY=
+      env:
+        scheme: ${{ matrix.run-config['scheme'] }}
+        destination: ${{ matrix.run-config['destination'] }}
+      run: xcodebuild -scheme ${scheme} test -destination "${destination}" -showBuildTimingSummary CODE_SIGN_IDENTITY=
