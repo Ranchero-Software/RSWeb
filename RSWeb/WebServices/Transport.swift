@@ -115,24 +115,29 @@ public enum TransportError: LocalizedError {
 
 public protocol Transport {
 	
-	/**
-	Sends URLRequest and returns the HTTP headers and the data payload.
-	*/
+	/// Cancels all pending requests
+	func cancelAll()
+	
+	/// Sends URLRequest and returns the HTTP headers and the data payload.
 	func send(request: URLRequest, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void)
 	
-	/**
-	Sends URLRequest that doesn't require any result information.
-	*/
+	/// Sends URLRequest that doesn't require any result information.
 	func send(request: URLRequest, method: String, completion: @escaping (Result<Void, Error>) -> Void)
 	
-	/**
-	Sends URLRequest with a data payload and returns the HTTP headers and the data payload.
-	*/
+	/// Sends URLRequest with a data payload and returns the HTTP headers and the data payload.
 	func send(request: URLRequest, method: String, payload: Data, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void)
 	
 }
 
 extension URLSession: Transport {
+	
+	public func cancelAll() {
+		getTasksWithCompletionHandler { dataTasks, uploadTasks, downloadTasks in
+			dataTasks.forEach { $0.cancel() }
+			uploadTasks.forEach { $0.cancel() }
+			downloadTasks.forEach { $0.cancel() }
+		}
+	}
 	
 	public func send(request: URLRequest, completion: @escaping (Result<(HTTPURLResponse, Data?), Error>) -> Void) {
 		let task = self.dataTask(with: request) { (data, response, error) in
