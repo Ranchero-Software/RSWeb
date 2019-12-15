@@ -39,19 +39,19 @@ private final class OneShotDownloadManager {
 		urlSession.invalidateAndCancel()
 	}
 
-	public func download(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
+	public func download(_ url: URL, _ completion: @escaping OneShotDownloadCallback) {
 		let task = urlSession.dataTask(with: url) { (data, response, error) in
 			DispatchQueue.main.async() {
-				callback(data, response, error)
+				completion(data, response, error)
 			}
 		}
 		task.resume()
 	}
 
-	public func download(_ urlRequest: URLRequest, _ callback: @escaping OneShotDownloadCallback) {
+	public func download(_ urlRequest: URLRequest, _ completion: @escaping OneShotDownloadCallback) {
 		let task = urlSession.dataTask(with: urlRequest) { (data, response, error) in
 			DispatchQueue.main.async() {
-				callback(data, response, error)
+				completion(data, response, error)
 			}
 		}
 		task.resume()
@@ -61,14 +61,14 @@ private final class OneShotDownloadManager {
 // Call one of these. It’s easier than referring to OneShotDownloadManager.
 // callback is called on the main queue.
 
-public func download(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
+public func download(_ url: URL, _ completion: @escaping OneShotDownloadCallback) {
 	precondition(Thread.isMainThread)
-	OneShotDownloadManager.shared.download(url, callback)
+	OneShotDownloadManager.shared.download(url, completion)
 }
 
-public func download(_ urlRequest: URLRequest, _ callback: @escaping OneShotDownloadCallback) {
+public func download(_ urlRequest: URLRequest, _ completion: @escaping OneShotDownloadCallback) {
 	precondition(Thread.isMainThread)
-	OneShotDownloadManager.shared.download(urlRequest, callback)
+	OneShotDownloadManager.shared.download(urlRequest, completion)
 }
 
 // MARK: - Downloading using a cache
@@ -123,7 +123,7 @@ private final class WebCache {
 
 private struct CallbackRecord {
 	let url: URL
-	let callback: OneShotDownloadCallback
+	let completion: OneShotDownloadCallback
 }
 
 private final class DownloadWithCacheManager {
@@ -136,7 +136,7 @@ private final class DownloadWithCacheManager {
 	private var pendingCallbacks = [CallbackRecord]()
 	private var urlsInProgress = Set<URL>()
 
-	func download(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
+	func download(_ url: URL, _ completion: @escaping OneShotDownloadCallback) {
 
 		if lastCleanupDate.timeIntervalSinceNow < -(5 * 60) {
 			lastCleanupDate = Date()
@@ -145,11 +145,11 @@ private final class DownloadWithCacheManager {
 
 		let cacheRecord: WebCacheRecord? = cache[url]
 		if let cacheRecord = cacheRecord {
-			callback(cacheRecord.data, cacheRecord.response, nil)
+			completion(cacheRecord.data, cacheRecord.response, nil)
 			return
 		}
 
-		let callbackRecord = CallbackRecord(url: url, callback: callback)
+		let callbackRecord = CallbackRecord(url: url, completion: completion)
 		pendingCallbacks.append(callbackRecord)
 		if urlsInProgress.contains(url) {
 			return // It will get called later.
@@ -168,7 +168,7 @@ private final class DownloadWithCacheManager {
 			var callbackCount = 0
 			self.pendingCallbacks.forEach{ (callbackRecord) in
 				if url == callbackRecord.url {
-					callbackRecord.callback(data, response, error)
+					callbackRecord.completion(data, response, error)
 					callbackCount += 1
 				}
 			}
@@ -179,7 +179,7 @@ private final class DownloadWithCacheManager {
 	}
 }
 
-public func downloadUsingCache(_ url: URL, _ callback: @escaping OneShotDownloadCallback) {
+public func downloadUsingCache(_ url: URL, _ completion: @escaping OneShotDownloadCallback) {
 	precondition(Thread.isMainThread)
-	DownloadWithCacheManager.shared.download(url, callback)
+	DownloadWithCacheManager.shared.download(url, completion)
 }
