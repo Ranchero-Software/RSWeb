@@ -35,7 +35,7 @@ public class MacWebBrowser {
 	}
 
 	/// The icon of the default web browser.
-	class var defaultBrowserIcon: NSImage? {
+	public class var defaultBrowserIcon: NSImage? {
 		if let bundleid = defaultBundleIdentifier {
 			if let browserURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleid) {
 				if let values = try? browserURL.resourceValues(forKeys: [.effectiveIconKey]) {
