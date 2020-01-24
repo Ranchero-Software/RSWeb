@@ -34,37 +34,42 @@ public class MacWebBrowser {
 		return LSCopyDefaultApplicationURLForURL(URL(string: "https:///")! as CFURL, .viewer, nil)?.takeRetainedValue() as URL?
 	}
 
-	/// The icon of the default web browser.
-	public class var defaultBrowserIcon: NSImage? {
-		if let browserURL = defaultBrowserURL {
-			if let values = try? browserURL.resourceValues(forKeys: [.effectiveIconKey]) {
-				return values.effectiveIcon as? NSImage
-			}
+	public class var `default`: MacWebBrowser {
+		return MacWebBrowser(url: defaultBrowserURL!)
+	}
+
+	let url: URL
+
+	public lazy var icon: NSImage? = {
+		if let values = try? url.resourceValues(forKeys: [.effectiveIconKey]) {
+			return values.effectiveIcon as? NSImage
 		}
 
 		return nil
-	}
+	}()
 
-	public class var defaultBrowserName: String? {
-		if let browserURL = defaultBrowserURL {
-			if let values = try? browserURL.resourceValues(forKeys: [.localizedNameKey]), var name = values.localizedName {
-				if let extensionRange = name.range(of: ".app", options: [.anchored, .backwards]) {
-					name = name.replacingCharacters(in: extensionRange, with: "")
-				}
-
-				return name
+	public lazy var name: String? = {
+		if let values = try? url.resourceValues(forKeys: [.localizedNameKey]), var name = values.localizedName {
+			if let extensionRange = name.range(of: ".app", options: [.anchored, .backwards]) {
+				name = name.replacingCharacters(in: extensionRange, with: "")
 			}
+
+			return name
 		}
 
 		return nil
-	}
+	}()
 
-	public class var defaultBrowserBundleIdentifier: String? {
-		if let browserURL = defaultBrowserURL, let bundle = Bundle(url: browserURL) {
+	public lazy var bundleIdentifier: String? = {
+		if let bundle = Bundle(url: url) {
 			return bundle.bundleIdentifier
 		}
 
 		return nil
+	}()
+
+	init(url: URL) {
+		self.url = url
 	}
 }
 
