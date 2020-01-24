@@ -28,6 +28,24 @@ public class MacWebBrowser {
 		
 		return NSWorkspace.shared.open(preparedURL)
 	}
+
+	/// The bundle identifier of the default web browser.
+	class var defaultBundleIdentifier: String? {
+		return LSCopyDefaultHandlerForURLScheme("https" as CFString)?.takeRetainedValue() as String?
+	}
+
+	/// The icon of the default web browser.
+	class var defaultBrowserIcon: NSImage? {
+		if let bundleid = defaultBundleIdentifier {
+			if let browserURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleid) {
+				if let values = try? browserURL.resourceValues(forKeys: [.effectiveIconKey]) {
+					return values.effectiveIcon as? NSImage
+				}
+			}
+		}
+
+		return nil
+	}
 }
 
 private extension URL {
