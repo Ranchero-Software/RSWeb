@@ -29,7 +29,7 @@ public class MacWebBrowser {
 		return NSWorkspace.shared.open(preparedURL)
 	}
 
-	/// The bundle identifier of the default web browser.
+	/// The filesystem URL of the default web browser.
 	class var defaultBrowserURL: URL? {
 		return LSCopyDefaultApplicationURLForURL(URL(string: "https:///")! as CFURL, .viewer, nil)?.takeRetainedValue() as URL?
 	}
