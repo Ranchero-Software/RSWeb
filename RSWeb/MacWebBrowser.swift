@@ -44,6 +44,20 @@ public class MacWebBrowser {
 
 		return nil
 	}
+
+	public class var defaultBrowserName: String? {
+		if let browserURL = defaultBrowserURL {
+			if let values = try? browserURL.resourceValues(forKeys: [.localizedNameKey]), var name = values.localizedName {
+				if let extensionRange = name.range(of: ".app", options: [.anchored, .backwards]) {
+					name = name.replacingCharacters(in: extensionRange, with: "")
+				}
+
+				return name
+			}
+		}
+
+		return nil
+	}
 }
 
 private extension URL {
