@@ -30,17 +30,15 @@ public class MacWebBrowser {
 	}
 
 	/// The bundle identifier of the default web browser.
-	class var defaultBundleIdentifier: String? {
-		return LSCopyDefaultHandlerForURLScheme("https" as CFString)?.takeRetainedValue() as String?
+	class var defaultBrowserURL: URL? {
+		return LSCopyDefaultApplicationURLForURL(URL(string: "https:///")! as CFURL, .viewer, nil)?.takeRetainedValue() as URL?
 	}
 
 	/// The icon of the default web browser.
 	public class var defaultBrowserIcon: NSImage? {
-		if let bundleid = defaultBundleIdentifier {
-			if let browserURL = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleid) {
-				if let values = try? browserURL.resourceValues(forKeys: [.effectiveIconKey]) {
-					return values.effectiveIcon as? NSImage
-				}
+		if let browserURL = defaultBrowserURL {
+			if let values = try? browserURL.resourceValues(forKeys: [.effectiveIconKey]) {
+				return values.effectiveIcon as? NSImage
 			}
 		}
 
