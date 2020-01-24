@@ -58,6 +58,14 @@ public class MacWebBrowser {
 
 		return nil
 	}
+
+	public class var defaultBrowserBundleIdentifier: String? {
+		if let browserURL = defaultBrowserURL, let bundle = Bundle(url: browserURL) {
+			return bundle.bundleIdentifier
+		}
+
+		return nil
+	}
 }
 
 private extension URL {
