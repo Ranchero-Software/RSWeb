@@ -33,7 +33,7 @@ public struct HTTPConditionalGetInfo: Codable, Equatable {
 		self.init(lastModified: lastModified, etag: etag)
 	}
 	
-	public func addRequestHeadersToURLRequest(_ urlRequest: NSMutableURLRequest) {
+	public func addRequestHeadersToURLRequest(_ urlRequest: inout URLRequest) {
 		// Bug seen in the wild: lastModified with last possible 32-bit date, which is in 2038. Ignore those.
 		// TODO: drop this check in late 2037.
 		if let lastModified = lastModified, !lastModified.contains("2038") {

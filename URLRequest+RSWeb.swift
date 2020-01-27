@@ -8,14 +8,14 @@
 
 import Foundation
 
-public extension NSMutableURLRequest {
+public extension URLRequest {
 
-	func addBasicAuthorization(username: String, password: String) -> Bool {
+	@discardableResult mutating func addBasicAuthorization(username: String, password: String) -> Bool {
 		
 		// Do this *only* with https. And not even then if you can help it.
 		
 		let s = "\(username):\(password)"
-		guard let d = s.data(using: String.Encoding.utf8, allowLossyConversion: false) else {
+		guard let d = s.data(using: .utf8, allowLossyConversion: false) else {
 			return false
 		}
 		
