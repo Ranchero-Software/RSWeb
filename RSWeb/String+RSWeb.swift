@@ -8,23 +8,41 @@
 
 import Foundation
 
+extension CharacterSet {
+
+	static let urlQueryItemAllowed: CharacterSet = {
+		var allowedCharacters = CharacterSet.urlQueryAllowed
+		allowedCharacters.remove(charactersIn: "&=")
+		return allowedCharacters
+	}()
+
+}
+
 public extension String {
 
-	func encodedForURLQuery() -> String? {
-
-		guard let encodedString = addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-			return nil
-		}
-		return encodedString.replacingOccurrences(of: "&", with: "%38")
+	var encodedForURLQuery: String? {
+		return addingPercentEncoding(withAllowedCharacters: .urlQueryItemAllowed)
 	}
 	
-	func escapeHTML() -> String {
-		var result = self.replacingOccurrences(of: "&", with: "&amp;")
-		result = result.replacingOccurrences(of: "\"", with: "&quot;")
-		result = result.replacingOccurrences(of: "'", with: "&#x27;")
-		result = result.replacingOccurrences(of: ">", with: "&gt;")
-		result = result.replacingOccurrences(of: "<", with: "&lt;")
-		return result
+	var escapeHTML: String {
+		var escaped = String()
+
+		for char in self {
+			switch char {
+				case "&":
+					escaped.append("&amp;")
+				case "<":
+					escaped.append("&lt;")
+				case ">":
+					escaped.append("&gt;")
+				case "\"":
+					escaped.append("&quot;")
+				default:
+					escaped.append(char)
+			}
+		}
+
+		return escaped
 	}
 	
 }
