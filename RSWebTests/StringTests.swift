@@ -12,13 +12,17 @@ class StringTests: XCTestCase {
 
     func testURLQueryEncoding() {
 
-		var s = "foo".encodedForURLQuery()
+		var s = "foo".encodedForURLQuery
 		XCTAssertEqual(s, "foo")
 
-		s = "foo bar".encodedForURLQuery()
+		s = "foo bar".encodedForURLQuery
 		XCTAssertEqual(s, "foo%20bar")
 
-		s = "foo bar &well".encodedForURLQuery()
-		XCTAssertEqual(s, "foo%20bar%20%38well")
+		s = "foo bar &well".encodedForURLQuery
+		XCTAssertEqual(s, "foo%20bar%20%26well")
+
+		s = "foo bar =well".encodedForURLQuery
+		XCTAssertEqual(s, "foo%20bar%20%3Dwell")
+
     }
 }
