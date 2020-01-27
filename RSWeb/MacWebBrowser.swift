@@ -9,8 +9,9 @@
 import AppKit
 
 public class MacWebBrowser {
-	
-	@discardableResult public class func openURL(_ url: URL, inBackground: Bool) -> Bool {
+
+	/// Opens a URL in the default browser.
+	@discardableResult public class func openURL(_ url: URL, inBackground: Bool = false) -> Bool {
 		
 		guard let preparedURL = url.preparedForOpeningInBrowser() else {
 			return false
@@ -29,17 +30,35 @@ public class MacWebBrowser {
 		return NSWorkspace.shared.open(preparedURL)
 	}
 
-	/// The filesystem URL of the default web browser.
-	class var defaultBrowserURL: URL? {
-		return LSCopyDefaultApplicationURLForURL(URL(string: "https:///")! as CFURL, .viewer, nil)?.takeRetainedValue() as URL?
+	/// Returns an array of MacWebBrowser, sorted by name.
+	public class func sortedBrowsers() -> [MacWebBrowser] {
+		guard let browserIDs = LSCopyAllHandlersForURLScheme("https" as CFString)?.takeRetainedValue() as? [String] else {
+			return []
+		}
+
+		return browserIDs.compactMap { MacWebBrowser(bundleIdentifier: $0) }.sorted {
+			if let leftName = $0.name, let rightName = $1.name {
+				return leftName < rightName
+			}
+
+			return false
+		}
 	}
 
+	/// The filesystem URL of the default web browser.
+	private class var defaultBrowserURL: URL? {
+		return NSWorkspace.shared.urlForApplication(toOpen: URL(string: "https:///")!)
+	}
+
+	/// The user's default web browser.
 	public class var `default`: MacWebBrowser {
 		return MacWebBrowser(url: defaultBrowserURL!)
 	}
 
+	/// The filesystem URL of the web browser.
 	let url: URL
 
+	/// The application icon of the web browser.
 	public lazy var icon: NSImage? = {
 		if let values = try? url.resourceValues(forKeys: [.effectiveIconKey]) {
 			return values.effectiveIcon as? NSImage
@@ -48,6 +67,7 @@ public class MacWebBrowser {
 		return nil
 	}()
 
+	/// The localized name of the web browser, with any `.app` extension removed.
 	public lazy var name: String? = {
 		if let values = try? url.resourceValues(forKeys: [.localizedNameKey]), var name = values.localizedName {
 			if let extensionRange = name.range(of: ".app", options: [.anchored, .backwards]) {
@@ -60,16 +80,51 @@ public class MacWebBrowser {
 		return nil
 	}()
 
+	/// The bundle identifier of the web browser.
 	public lazy var bundleIdentifier: String? = {
-		if let bundle = Bundle(url: url) {
-			return bundle.bundleIdentifier
-		}
-
-		return nil
+		return Bundle(url: url)?.bundleIdentifier
 	}()
 
+	/// Initializes a `MacWebBrowser` with a URL on disk.
+	/// - Parameter url: The filesystem URL of the browser.
 	init(url: URL) {
 		self.url = url
+	}
+
+	/// Initializes a `MacWebBrowser` from a bundle identifier.
+	/// - Parameter bundleIdentifier: The bundle identifier of the browser.
+	convenience init?(bundleIdentifier: String) {
+		guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier) else {
+			return nil
+		}
+
+		self.init(url: url)
+	}
+
+	/// Opens a URL in this browser.
+	/// - Parameters:
+	///   - url: The URL to open.
+	///   - inBackground: If `true`, attempt to load the URL without bringing the browser to the foreground.
+	@discardableResult public func openURL(_ url: URL, inBackground: Bool = false) -> Bool {
+		guard let preparedURL = url.preparedForOpeningInBrowser() else {
+			return false
+		}
+
+		let options: NSWorkspace.LaunchOptions = inBackground ? [.withoutActivation] : []
+
+		return NSWorkspace.shared.open([preparedURL], withAppBundleIdentifier: self.bundleIdentifier, options: options, additionalEventParamDescriptor: nil, launchIdentifiers: nil)
+	}
+
+}
+
+extension MacWebBrowser: CustomDebugStringConvertible {
+
+	public var debugDescription: String {
+		if let name = name, let bundleIdentifier = bundleIdentifier{
+			return "MacWebBrowser: \(name) (\(bundleIdentifier))"
+		} else {
+			return "MacWebBrowser"
+		}
 	}
 }
 
