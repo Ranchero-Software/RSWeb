@@ -10,6 +10,9 @@ import Foundation
 
 extension CharacterSet {
 
+	/// Characters allowed in an URL query name or value.
+	///
+	/// Identical to `.urlQueryAllowed` without `&` or `=`.
 	static let urlQueryItemAllowed: CharacterSet = {
 		var allowedCharacters = CharacterSet.urlQueryAllowed
 		allowedCharacters.remove(charactersIn: "&=")
@@ -20,11 +23,15 @@ extension CharacterSet {
 
 public extension String {
 
+	/// Returns `self` percent-encoded for use as a name or value in a URL query.
 	var encodedForURLQuery: String? {
 		return addingPercentEncoding(withAllowedCharacters: .urlQueryItemAllowed)
 	}
-	
-	var escapeHTML: String {
+
+	/// Escapes special HTML characters.
+	///
+	/// Escaped characters are `&`, `<`, `>`, `"`, and `'`.
+	var escapedHTML: String {
 		var escaped = String()
 
 		for char in self {
@@ -37,6 +44,8 @@ public extension String {
 					escaped.append("&gt;")
 				case "\"":
 					escaped.append("&quot;")
+				case "'":
+					escaped.append("&apos;")
 				default:
 					escaped.append(char)
 			}

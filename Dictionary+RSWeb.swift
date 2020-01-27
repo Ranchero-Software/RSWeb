@@ -10,10 +10,7 @@ import Foundation
 
 public extension Dictionary where Key == String, Value == String  {
 
-	/// Turn a dictionary into string like `foo=bar&param2=some%20thing`.
-	///
-	/// - Returns: An URL-encoded query string, or `nil` if the dictionary is empty.
-
+	/// Translates a dictionary into a string like `foo=bar&param2=some%20thing`.
 	var urlQueryString: String? {
 
 		var components = URLComponents()
