@@ -10,19 +10,10 @@ import XCTest
 
 class StringTests: XCTestCase {
 
-    func testURLQueryEncoding() {
+    func testHTMLEscaping() {
 
-		var s = "foo".encodedForURLQuery
-		XCTAssertEqual(s, "foo")
-
-		s = "foo bar".encodedForURLQuery
-		XCTAssertEqual(s, "foo%20bar")
-
-		s = "foo bar &well".encodedForURLQuery
-		XCTAssertEqual(s, "foo%20bar%20%26well")
-
-		s = "foo bar =well".encodedForURLQuery
-		XCTAssertEqual(s, "foo%20bar%20%3Dwell")
+		let s = #"<foo>"bar"&'baz'"#.escapedHTML
+		XCTAssertEqual(s, "&lt;foo&gt;&quot;bar&quot;&amp;&apos;baz&apos;")
 
     }
 }
