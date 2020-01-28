@@ -8,25 +8,7 @@
 
 import Foundation
 
-extension CharacterSet {
-
-	/// Characters allowed in an URL query name or value.
-	///
-	/// Identical to `.urlQueryAllowed` without `&` or `=`.
-	static let urlQueryItemAllowed: CharacterSet = {
-		var allowedCharacters = CharacterSet.urlQueryAllowed
-		allowedCharacters.remove(charactersIn: "&=")
-		return allowedCharacters
-	}()
-
-}
-
 public extension String {
-
-	/// Returns `self` percent-encoded for use as a name or value in a URL query.
-	var encodedForURLQuery: String? {
-		return addingPercentEncoding(withAllowedCharacters: .urlQueryItemAllowed)
-	}
 
 	/// Escapes special HTML characters.
 	///
