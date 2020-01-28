@@ -10,21 +10,30 @@ import Foundation
 
 public extension String {
 
-	func encodedForURLQuery() -> String? {
+	/// Escapes special HTML characters.
+	///
+	/// Escaped characters are `&`, `<`, `>`, `"`, and `'`.
+	var escapedHTML: String {
+		var escaped = String()
 
-		guard let encodedString = addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-			return nil
+		for char in self {
+			switch char {
+				case "&":
+					escaped.append("&amp;")
+				case "<":
+					escaped.append("&lt;")
+				case ">":
+					escaped.append("&gt;")
+				case "\"":
+					escaped.append("&quot;")
+				case "'":
+					escaped.append("&apos;")
+				default:
+					escaped.append(char)
+			}
 		}
-		return encodedString.replacingOccurrences(of: "&", with: "%38")
-	}
-	
-	func escapeHTML() -> String {
-		var result = self.replacingOccurrences(of: "&", with: "&amp;")
-		result = result.replacingOccurrences(of: "\"", with: "&quot;")
-		result = result.replacingOccurrences(of: "'", with: "&#x27;")
-		result = result.replacingOccurrences(of: ">", with: "&gt;")
-		result = result.replacingOccurrences(of: "<", with: "&lt;")
-		return result
+
+		return escaped
 	}
 	
 }

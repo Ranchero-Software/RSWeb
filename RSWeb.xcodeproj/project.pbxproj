@@ -41,8 +41,8 @@
 		842ED3001E12FBC1000CF738 /* UserAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED2FE1E12FBC1000CF738 /* UserAgent.swift */; };
 		842ED3021E12FBC7000CF738 /* HTTPConditionalGetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3011E12FBC7000CF738 /* HTTPConditionalGetInfo.swift */; };
 		842ED3031E12FBC7000CF738 /* HTTPConditionalGetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3011E12FBC7000CF738 /* HTTPConditionalGetInfo.swift */; };
-		842ED3051E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3041E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift */; };
-		842ED3061E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3041E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift */; };
+		842ED3051E12FBCC000CF738 /* URLRequest+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3041E12FBCC000CF738 /* URLRequest+RSWeb.swift */; };
+		842ED3061E12FBCC000CF738 /* URLRequest+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3041E12FBCC000CF738 /* URLRequest+RSWeb.swift */; };
 		842ED30B1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */; };
 		842ED30C1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */; };
 		842ED30E1E12FBDD000CF738 /* URLResponse+RSWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED30D1E12FBDD000CF738 /* URLResponse+RSWeb.swift */; };
@@ -84,7 +84,7 @@
 		842ED2FB1E12FBBB000CF738 /* DownloadObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DownloadObject.swift; path = RSWeb/DownloadObject.swift; sourceTree = "<group>"; };
 		842ED2FE1E12FBC1000CF738 /* UserAgent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAgent.swift; sourceTree = "<group>"; };
 		842ED3011E12FBC7000CF738 /* HTTPConditionalGetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HTTPConditionalGetInfo.swift; sourceTree = "<group>"; };
-		842ED3041E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableURLRequest+RSWeb.swift"; sourceTree = "<group>"; };
+		842ED3041E12FBCC000CF738 /* URLRequest+RSWeb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLRequest+RSWeb.swift"; sourceTree = "<group>"; };
 		842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "URL+RSWeb.swift"; path = "RSWeb/URL+RSWeb.swift"; sourceTree = "<group>"; };
 		842ED30D1E12FBDD000CF738 /* URLResponse+RSWeb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLResponse+RSWeb.swift"; sourceTree = "<group>"; };
 		842ED3101E12FBE1000CF738 /* MacWebBrowser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MacWebBrowser.swift; path = RSWeb/MacWebBrowser.swift; sourceTree = "<group>"; };
@@ -163,7 +163,7 @@
 				51E49032228866A400C791F0 /* HTTPLinkPagingInfo.swift */,
 				842ED3101E12FBE1000CF738 /* MacWebBrowser.swift */,
 				842ED3131E12FBE7000CF738 /* MimeType.swift */,
-				842ED3041E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift */,
+				842ED3041E12FBCC000CF738 /* URLRequest+RSWeb.swift */,
 				8409DB2F200AE81400CE879E /* String+RSWeb.swift */,
 				842ED30D1E12FBDD000CF738 /* URLResponse+RSWeb.swift */,
 				842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */,
@@ -445,7 +445,7 @@
 				842ED2F61E12FBAF000CF738 /* OneShotDownload.swift in Sources */,
 				842ED2F31E12FBAA000CF738 /* DownloadSession.swift in Sources */,
 				510C86182288EBB400FA2488 /* HTTPDateInfo.swift in Sources */,
-				842ED3051E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */,
+				842ED3051E12FBCC000CF738 /* URLRequest+RSWeb.swift in Sources */,
 				51E49033228866A400C791F0 /* HTTPLinkPagingInfo.swift in Sources */,
 				51EC99CF227DBC1F002E55C9 /* Transport.swift in Sources */,
 				842ED2E71E12FB8A000CF738 /* HTTPRequestHeader.swift in Sources */,
@@ -486,7 +486,7 @@
 				51EC99D0227DBC1F002E55C9 /* Transport.swift in Sources */,
 				5113B87122ADBAFC0018040E /* String+RSWeb.swift in Sources */,
 				842ED2F11E12FB9B000CF738 /* HTTPResponseHeader.swift in Sources */,
-				842ED3061E12FBCC000CF738 /* NSMutableURLRequest+RSWeb.swift in Sources */,
+				842ED3061E12FBCC000CF738 /* URLRequest+RSWeb.swift in Sources */,
 				842ED2F41E12FBAA000CF738 /* DownloadSession.swift in Sources */,
 				512B10A02350E52A009C4920 /* Dictionary+RSWeb.swift in Sources */,
 				842ED2EE1E12FB97000CF738 /* HTTPResponseCode.swift in Sources */,

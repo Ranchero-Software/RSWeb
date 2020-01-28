@@ -8,39 +8,19 @@
 
 import Foundation
 
-public extension Dictionary  {
+public extension Dictionary where Key == String, Value == String  {
 
-	func urlQueryString() -> String? {
+	/// Translates a dictionary into a string like `foo=bar&param2=some%20thing`.
+	var urlQueryString: String? {
 
-		// Turn a dictionary into string like foo=bar&param2=some%20thing
-		// Return nil if empty dictionary.
+		var components = URLComponents()
 
-		if isEmpty {
-			return nil
+		components.queryItems = self.reduce(into: [URLQueryItem]()) {
+			$0.append(URLQueryItem(name: $1.key, value: $1.value))
 		}
 
-		var s = ""
-		var numberAdded = 0
-		for (key, value) in self {
+		let s = components.percentEncodedQuery
 
-			guard let key = key as? String, let value = value as? String else {
-				continue
-			}
-			guard let encodedKey = key.encodedForURLQuery(), let encodedValue = value.encodedForURLQuery() else {
-				continue
-			}
-
-			if numberAdded > 0 {
-				s += "&"
-			}
-			s += "\(encodedKey)=\(encodedValue)"
-			numberAdded += 1
-		}
-
-		if numberAdded < 1 {
-			return nil
-		}
-		
-		return s
+		return s == nil || s!.isEmpty ? nil : s
 	}
 }

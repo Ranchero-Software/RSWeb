@@ -16,7 +16,7 @@ public extension URLResponse {
 	
 	var forcedStatusCode: Int {
 		
-		// Return actual statusCode or -1 if there isn’t one.
+		// Return actual statusCode or 0 if there isn’t one.
 		
 		if let response = self as? HTTPURLResponse {
 			return response.statusCode
