@@ -71,7 +71,7 @@ extension Transport {
 		send(request: postRequest, method: method, payload: data) { result in
 			DispatchQueue.main.async {
 				switch result {
-				case .success(_, _):
+				case .success((_, _)):
 					completion(.success(()))
 				case .failure(let error):
 					completion(.failure(error))
