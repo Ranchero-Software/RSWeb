@@ -14,23 +14,17 @@ import Foundation
 public protocol DownloadSessionDelegate {
 
 	func downloadSession(_ downloadSession: DownloadSession, requestForRepresentedObject: AnyObject) -> URLRequest?
-
 	func downloadSession(_ downloadSession: DownloadSession, downloadDidCompleteForRepresentedObject: AnyObject, response: URLResponse?, data: Data, error: NSError?, completion: @escaping () -> Void)
-
 	func downloadSession(_ downloadSession: DownloadSession, shouldContinueAfterReceivingData: Data, representedObject: AnyObject) -> Bool
-
 	func downloadSession(_ downloadSession: DownloadSession, didReceiveUnexpectedResponse: URLResponse, representedObject: AnyObject)
-
 	func downloadSession(_ downloadSession: DownloadSession, didReceiveNotModifiedResponse: URLResponse, representedObject: AnyObject)
-	
 	func downloadSessionDidCompleteDownloadObjects(_ downloadSession: DownloadSession)
+	
 }
 
 
 @objc public final class DownloadSession: NSObject {
 	
-	public var progress = DownloadProgress(numberOfTasks: 0)
-
 	private var urlSession: URLSession!
 	private var tasksInProgress = Set<URLSessionTask>()
 	private var tasksPending = Set<URLSessionTask>()
@@ -76,20 +70,15 @@ public protocol DownloadSessionDelegate {
 	}
 
 	public func downloadObjects(_ objects: NSSet) {
-
 		var numberOfTasksAdded = 0
 
 		for oneObject in objects {
-
 			if !representedObjects.contains(oneObject) {
 				representedObjects.add(oneObject)
 				addDataTask(oneObject as AnyObject)
 				numberOfTasksAdded += 1
 			}
 		}
-
-		progress.addToNumberOfTasks(numberOfTasksAdded)
-		updateProgress()
 	}
 }
 
@@ -98,7 +87,6 @@ public protocol DownloadSessionDelegate {
 extension DownloadSession: URLSessionTaskDelegate {
 
 	public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-		
 		tasksInProgress.remove(task)
 		
 		guard let info = infoForTask(task) else {
@@ -185,18 +173,7 @@ extension DownloadSession: URLSessionDataDelegate {
 
 private extension DownloadSession {
 
-	func updateProgress() {
-		
-		progress.numberRemaining = tasksInProgress.count + tasksPending.count
-		if progress.numberRemaining < 1 {
-			progress.clear()
-			representedObjects.removeAllObjects()
-			delegate.downloadSessionDidCompleteDownloadObjects(self)
-		}
-	}
-	
 	func addDataTask(_ representedObject: AnyObject) {
-
 		guard let request = delegate.downloadSession(self, requestForRepresentedObject: representedObject) else {
 			return
 		}
@@ -221,16 +198,18 @@ private extension DownloadSession {
 	}
 
 	func infoForTask(_ task: URLSessionTask) -> DownloadInfo? {
-
 		return taskIdentifierToInfoDictionary[task.taskIdentifier]
 	}
 
 	func removeTask(_ task: URLSessionTask) {
-
 		tasksInProgress.remove(task)
 		tasksPending.remove(task)
 		taskIdentifierToInfoDictionary[task.taskIdentifier] = nil
-		updateProgress()
+
+		if tasksInProgress.count + tasksPending.count < 1 {
+			representedObjects.removeAllObjects()
+			delegate.downloadSessionDidCompleteDownloadObjects(self)
+		}
 	}
 	
 	func urlStringIsBlackListedRedirect(_ urlString: String) -> Bool {
@@ -250,11 +229,9 @@ private extension DownloadSession {
 	}
 	
 	func cacheRedirect(_ oldURLString: String, _ newURLString: String) {
-		
 		if urlStringIsBlackListedRedirect(newURLString) {
 			return
 		}
-		
 		redirectCache[oldURLString] = newURLString
 	}
 	
