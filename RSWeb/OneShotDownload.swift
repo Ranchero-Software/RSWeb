@@ -138,7 +138,7 @@ private final class DownloadWithCacheManager {
 
 	func download(_ url: URL, _ completion: @escaping OneShotDownloadCallback) {
 
-		if lastCleanupDate.timeIntervalSinceNow < -(5 * 60) {
+		if lastCleanupDate.timeIntervalSinceNow < -DownloadWithCacheManager.cleanupInterval {
 			lastCleanupDate = Date()
 			cache.cleanup(DownloadWithCacheManager.timeToLive)
 		}
