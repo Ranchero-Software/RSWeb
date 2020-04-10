@@ -18,6 +18,7 @@ public protocol DownloadSessionDelegate {
 	func downloadSession(_ downloadSession: DownloadSession, shouldContinueAfterReceivingData: Data, representedObject: AnyObject) -> Bool
 	func downloadSession(_ downloadSession: DownloadSession, didReceiveUnexpectedResponse: URLResponse, representedObject: AnyObject)
 	func downloadSession(_ downloadSession: DownloadSession, didReceiveNotModifiedResponse: URLResponse, representedObject: AnyObject)
+	func downloadSession(_ downloadSession: DownloadSession, didDiscardDuplicateRepresentedObject: AnyObject)
 	func downloadSessionDidCompleteDownloadObjects(_ downloadSession: DownloadSession)
 	
 }
@@ -70,13 +71,12 @@ public protocol DownloadSessionDelegate {
 	}
 
 	public func downloadObjects(_ objects: NSSet) {
-		var numberOfTasksAdded = 0
-
 		for oneObject in objects {
 			if !representedObjects.contains(oneObject) {
 				representedObjects.add(oneObject)
 				addDataTask(oneObject as AnyObject)
-				numberOfTasksAdded += 1
+			} else {
+				delegate.downloadSession(self, didDiscardDuplicateRepresentedObject: oneObject as AnyObject)
 			}
 		}
 	}
