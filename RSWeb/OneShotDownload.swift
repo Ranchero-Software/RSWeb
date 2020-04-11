@@ -136,17 +136,19 @@ private final class DownloadWithCacheManager {
 	private var pendingCallbacks = [CallbackRecord]()
 	private var urlsInProgress = Set<URL>()
 
-	func download(_ url: URL, _ completion: @escaping OneShotDownloadCallback) {
+	func download(_ url: URL, _ completion: @escaping OneShotDownloadCallback, forceRedownload: Bool = false) {
 
 		if lastCleanupDate.timeIntervalSinceNow < -DownloadWithCacheManager.cleanupInterval {
 			lastCleanupDate = Date()
 			cache.cleanup(DownloadWithCacheManager.timeToLive)
 		}
 
-		let cacheRecord: WebCacheRecord? = cache[url]
-		if let cacheRecord = cacheRecord {
-			completion(cacheRecord.data, cacheRecord.response, nil)
-			return
+		if !forceRedownload {
+			let cacheRecord: WebCacheRecord? = cache[url]
+			if let cacheRecord = cacheRecord {
+				completion(cacheRecord.data, cacheRecord.response, nil)
+				return
+			}
 		}
 
 		let callbackRecord = CallbackRecord(url: url, completion: completion)
@@ -182,4 +184,9 @@ private final class DownloadWithCacheManager {
 public func downloadUsingCache(_ url: URL, _ completion: @escaping OneShotDownloadCallback) {
 	precondition(Thread.isMainThread)
 	DownloadWithCacheManager.shared.download(url, completion)
+}
+
+public func downloadAddingToCache(_ url: URL, _ completion: @escaping OneShotDownloadCallback) {
+	precondition(Thread.isMainThread)
+	DownloadWithCacheManager.shared.download(url, completion, forceRedownload: true)
 }
