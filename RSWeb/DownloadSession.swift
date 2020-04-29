@@ -42,7 +42,7 @@ public protocol DownloadSessionDelegate {
 		
 		let sessionConfiguration = URLSessionConfiguration.default
 		sessionConfiguration.requestCachePolicy = .reloadIgnoringLocalCacheData
-		sessionConfiguration.timeoutIntervalForRequest = 60.0
+		sessionConfiguration.timeoutIntervalForRequest = 15.0
 		sessionConfiguration.httpShouldSetCookies = false
 		sessionConfiguration.httpCookieAcceptPolicy = .never
 		sessionConfiguration.httpMaximumConnectionsPerHost = 2
