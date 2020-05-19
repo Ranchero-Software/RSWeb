@@ -87,13 +87,13 @@ public class MacWebBrowser {
 
 	/// Initializes a `MacWebBrowser` with a URL on disk.
 	/// - Parameter url: The filesystem URL of the browser.
-	init(url: URL) {
+	public init(url: URL) {
 		self.url = url
 	}
 
 	/// Initializes a `MacWebBrowser` from a bundle identifier.
 	/// - Parameter bundleIdentifier: The bundle identifier of the browser.
-	convenience init?(bundleIdentifier: String) {
+	public convenience init?(bundleIdentifier: String) {
 		guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier) else {
 			return nil
 		}
