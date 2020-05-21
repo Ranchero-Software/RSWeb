@@ -32,9 +32,15 @@ public class MacWebBrowser {
 
 	/// Returns an array of MacWebBrowser, sorted by name.
 	public class func sortedBrowsers() -> [MacWebBrowser] {
-		guard let browserIDs = LSCopyAllHandlersForURLScheme("https" as CFString)?.takeRetainedValue() as? [String] else {
+		guard let httpsIDs = LSCopyAllHandlersForURLScheme("https" as CFString)?.takeRetainedValue() as? [String] else {
 			return []
 		}
+
+		guard let htmlIDs = LSCopyAllRoleHandlersForContentType(kUTTypeHTML, .viewer)?.takeRetainedValue() as? [String] else {
+			return []
+		}
+
+		let browserIDs = Set(httpsIDs).intersection(Set(htmlIDs))
 
 		return browserIDs.compactMap { MacWebBrowser(bundleIdentifier: $0) }.sorted {
 			if let leftName = $0.name, let rightName = $1.name {
