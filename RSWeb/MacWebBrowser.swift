@@ -30,7 +30,9 @@ public class MacWebBrowser {
 		return NSWorkspace.shared.open(preparedURL)
 	}
 
-	/// Returns an array of MacWebBrowser, sorted by name.
+	/// Returns an array of the browsers installed on the system, sorted by name.
+	///
+	/// "Browsers" are applications that can both handle `https` URLs, and display HTML documents.
 	public class func sortedBrowsers() -> [MacWebBrowser] {
 		guard let httpsIDs = LSCopyAllHandlersForURLScheme("https" as CFString)?.takeRetainedValue() as? [String] else {
 			return []
@@ -62,7 +64,7 @@ public class MacWebBrowser {
 	}
 
 	/// The filesystem URL of the web browser.
-	let url: URL
+	public let url: URL
 
 	/// The application icon of the web browser.
 	public lazy var icon: NSImage? = {
