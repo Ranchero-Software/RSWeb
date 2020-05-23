@@ -67,7 +67,7 @@ public class MacWebBrowser {
 	public let url: URL
 
 	/// The application icon of the web browser.
-	public lazy var icon: NSImage? = {
+	public private(set) lazy var icon: NSImage? = {
 		if let values = try? url.resourceValues(forKeys: [.effectiveIconKey]) {
 			return values.effectiveIcon as? NSImage
 		}
@@ -76,7 +76,7 @@ public class MacWebBrowser {
 	}()
 
 	/// The localized name of the web browser, with any `.app` extension removed.
-	public lazy var name: String? = {
+	public private(set) lazy var name: String? = {
 		if let values = try? url.resourceValues(forKeys: [.localizedNameKey]), var name = values.localizedName {
 			if let extensionRange = name.range(of: ".app", options: [.anchored, .backwards]) {
 				name = name.replacingCharacters(in: extensionRange, with: "")
@@ -89,7 +89,7 @@ public class MacWebBrowser {
 	}()
 
 	/// The bundle identifier of the web browser.
-	public lazy var bundleIdentifier: String? = {
+	public private(set) lazy var bundleIdentifier: String? = {
 		return Bundle(url: url)?.bundleIdentifier
 	}()
 
