@@ -66,8 +66,7 @@ public class MacWebBrowser {
 	/// The filesystem URL of the web browser.
 	public let url: URL
 
-	/// The application icon of the web browser.
-	public private(set) lazy var icon: NSImage? = {
+	private lazy var _icon: NSImage? = {
 		if let values = try? url.resourceValues(forKeys: [.effectiveIconKey]) {
 			return values.effectiveIcon as? NSImage
 		}
@@ -75,8 +74,12 @@ public class MacWebBrowser {
 		return nil
 	}()
 
-	/// The localized name of the web browser, with any `.app` extension removed.
-	public private(set) lazy var name: String? = {
+	/// The application icon of the web browser.
+	public var icon: NSImage? {
+		return _icon
+	}
+
+	private lazy var _name: String? = {
 		if let values = try? url.resourceValues(forKeys: [.localizedNameKey]), var name = values.localizedName {
 			if let extensionRange = name.range(of: ".app", options: [.anchored, .backwards]) {
 				name = name.replacingCharacters(in: extensionRange, with: "")
@@ -88,10 +91,19 @@ public class MacWebBrowser {
 		return nil
 	}()
 
-	/// The bundle identifier of the web browser.
-	public private(set) lazy var bundleIdentifier: String? = {
+	/// The localized name of the web browser, with any `.app` extension removed.
+	public var name: String? {
+		return _name
+	}
+
+	private lazy var _bundleIdentifier: String? = {
 		return Bundle(url: url)?.bundleIdentifier
 	}()
+
+	/// The bundle identifier of the web browser.
+	public var bundleIdentifier: String? {
+		return _bundleIdentifier
+	}
 
 	/// Initializes a `MacWebBrowser` with a URL on disk.
 	/// - Parameter url: The filesystem URL of the browser.
