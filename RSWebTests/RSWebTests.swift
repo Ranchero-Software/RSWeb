@@ -32,5 +32,11 @@ class RSWebTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+
+	func testAllBrowsers() {
+		let browsers = MacWebBrowser.sortedBrowsers()
+
+		XCTAssertNotNil(browsers);
+	}
     
 }
