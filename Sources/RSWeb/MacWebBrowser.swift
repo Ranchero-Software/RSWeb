@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ranchero Software, LLC. All rights reserved.
 //
 
+#if os(macOS)
 import AppKit
 
 public class MacWebBrowser {
@@ -160,3 +161,4 @@ private extension URL {
 		return URL(string: urlString)
 	}	
 }
+#endif
