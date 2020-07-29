@@ -23,6 +23,10 @@ let package = Package(
         .target(
             name: "RSWeb",
             dependencies: []),
+        .target(
+            name: "UTS46",
+            dependencies: [],
+            resources: [.copy("uts46")]),
         .testTarget(
             name: "RSWebTests",
             dependencies: ["RSWeb"]),
