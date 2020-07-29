@@ -22,7 +22,8 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "RSWeb",
-            dependencies: []),
+            dependencies: [],
+            resources: [.copy("UTS46/uts46")]),
         .testTarget(
             name: "RSWebTests",
             dependencies: ["RSWeb"]),
