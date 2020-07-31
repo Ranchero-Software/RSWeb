@@ -23,7 +23,8 @@ let package = Package(
         .target(
             name: "RSWeb",
             dependencies: [],
-            resources: [.copy("UTS46/uts46")]),
+			resources: [.copy("UTS46/uts46")],
+			swiftSettings: [SwiftSetting.define("SWIFT_PACKAGE")]),
         .testTarget(
             name: "RSWebTests",
             dependencies: ["RSWeb"]),
