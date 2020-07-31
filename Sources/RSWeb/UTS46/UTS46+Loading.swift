@@ -61,7 +61,7 @@ extension UTS46 {
 
 	static func loadIfNecessary() throws {
 		guard !isLoaded else { return }
-		guard let url = Bundle(for: Self.self).url(forResource: "uts46", withExtension: nil) else { throw CocoaError(.fileNoSuchFile) }
+		guard let url = Bundle.module.url(forResource: "uts46", withExtension: nil) else { throw CocoaError(.fileNoSuchFile) }
 
 		try load(from: url)
 	}
