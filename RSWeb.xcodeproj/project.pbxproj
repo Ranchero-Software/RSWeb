@@ -52,6 +52,18 @@
 		842ED3151E12FBE7000CF738 /* MimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842ED3131E12FBE7000CF738 /* MimeType.swift */; };
 		849C08C01E0CAC86006B03FA /* RSWeb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 849C08B61E0CAC85006B03FA /* RSWeb.framework */; };
 		849C08C51E0CAC86006B03FA /* RSWebTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849C08C41E0CAC86006B03FA /* RSWebTests.swift */; };
+		B27FE99E24FEF54D00C8A8F4 /* UTS46+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99824FEF54C00C8A8F4 /* UTS46+Loading.swift */; };
+		B27FE99F24FEF54D00C8A8F4 /* UTS46+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99824FEF54C00C8A8F4 /* UTS46+Loading.swift */; };
+		B27FE9A024FEF54D00C8A8F4 /* UTS46.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99924FEF54C00C8A8F4 /* UTS46.swift */; };
+		B27FE9A124FEF54D00C8A8F4 /* UTS46.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99924FEF54C00C8A8F4 /* UTS46.swift */; };
+		B27FE9A224FEF54D00C8A8F4 /* String+Punycode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99A24FEF54C00C8A8F4 /* String+Punycode.swift */; };
+		B27FE9A324FEF54D00C8A8F4 /* String+Punycode.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99A24FEF54C00C8A8F4 /* String+Punycode.swift */; };
+		B27FE9A424FEF54D00C8A8F4 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99B24FEF54C00C8A8F4 /* Data+Extensions.swift */; };
+		B27FE9A524FEF54D00C8A8F4 /* Data+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99B24FEF54C00C8A8F4 /* Data+Extensions.swift */; };
+		B27FE9A624FEF54D00C8A8F4 /* Scanner+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99C24FEF54C00C8A8F4 /* Scanner+Extensions.swift */; };
+		B27FE9A724FEF54D00C8A8F4 /* Scanner+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27FE99C24FEF54C00C8A8F4 /* Scanner+Extensions.swift */; };
+		B27FE9A824FEF54D00C8A8F4 /* uts46 in Resources */ = {isa = PBXBuildFile; fileRef = B27FE99D24FEF54C00C8A8F4 /* uts46 */; };
+		B27FE9A924FEF54D00C8A8F4 /* uts46 in Resources */ = {isa = PBXBuildFile; fileRef = B27FE99D24FEF54C00C8A8F4 /* uts46 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +107,12 @@
 		849C08C61E0CAC86006B03FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		849C08D51E0CACA3006B03FA /* RSWeb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RSWeb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		849C08D81E0CACA3006B03FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B27FE99824FEF54C00C8A8F4 /* UTS46+Loading.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UTS46+Loading.swift"; sourceTree = "<group>"; };
+		B27FE99924FEF54C00C8A8F4 /* UTS46.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UTS46.swift; sourceTree = "<group>"; };
+		B27FE99A24FEF54C00C8A8F4 /* String+Punycode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Punycode.swift"; sourceTree = "<group>"; };
+		B27FE99B24FEF54C00C8A8F4 /* Data+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Data+Extensions.swift"; sourceTree = "<group>"; };
+		B27FE99C24FEF54C00C8A8F4 /* Scanner+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Scanner+Extensions.swift"; sourceTree = "<group>"; };
+		B27FE99D24FEF54C00C8A8F4 /* uts46 */ = {isa = PBXFileReference; lastKnownFileType = file; path = uts46; sourceTree = "<group>"; };
 		D511EF2120242EDA00712EC3 /* RSWeb_project_debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = RSWeb_project_debug.xcconfig; sourceTree = "<group>"; };
 		D511EF2220242EDA00712EC3 /* RSWeb_project.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = RSWeb_project.xcconfig; sourceTree = "<group>"; };
 		D511EF2320242EDA00712EC3 /* RSWeb_target.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = RSWeb_target.xcconfig; sourceTree = "<group>"; };
@@ -167,6 +185,7 @@
 				842ED30D1E12FBDD000CF738 /* URLResponse+RSWeb.swift */,
 				842ED30A1E12FBD8000CF738 /* URL+RSWeb.swift */,
 				842ED2FE1E12FBC1000CF738 /* UserAgent.swift */,
+				B27FE99724FEF54C00C8A8F4 /* UTS46 */,
 				842ED2D41E11FE8B000CF738 /* Constants */,
 				849C09231E0CAD67006B03FA /* Downloading */,
 				84245C581FDC690A0074AFBB /* WebServices */,
@@ -224,6 +243,19 @@
 				842ED2FB1E12FBBB000CF738 /* DownloadObject.swift */,
 			);
 			name = Downloading;
+			sourceTree = "<group>";
+		};
+		B27FE99724FEF54C00C8A8F4 /* UTS46 */ = {
+			isa = PBXGroup;
+			children = (
+				B27FE99824FEF54C00C8A8F4 /* UTS46+Loading.swift */,
+				B27FE99924FEF54C00C8A8F4 /* UTS46.swift */,
+				B27FE99A24FEF54C00C8A8F4 /* String+Punycode.swift */,
+				B27FE99B24FEF54C00C8A8F4 /* Data+Extensions.swift */,
+				B27FE99C24FEF54C00C8A8F4 /* Scanner+Extensions.swift */,
+				B27FE99D24FEF54C00C8A8F4 /* uts46 */,
+			);
+			path = UTS46;
 			sourceTree = "<group>";
 		};
 		D511EF2020242EDA00712EC3 /* xcconfig */ = {
@@ -372,6 +404,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27FE9A824FEF54D00C8A8F4 /* uts46 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +419,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27FE9A924FEF54D00C8A8F4 /* uts46 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -435,6 +469,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B27FE9A624FEF54D00C8A8F4 /* Scanner+Extensions.swift in Sources */,
 				842ED2F01E12FB9B000CF738 /* HTTPResponseHeader.swift in Sources */,
 				51D587622280554B00900287 /* TransportJSON.swift in Sources */,
 				842ED2FF1E12FBC1000CF738 /* UserAgent.swift in Sources */,
@@ -442,7 +477,10 @@
 				842ED30E1E12FBDD000CF738 /* URLResponse+RSWeb.swift in Sources */,
 				842ED2F61E12FBAF000CF738 /* OneShotDownload.swift in Sources */,
 				842ED2F31E12FBAA000CF738 /* DownloadSession.swift in Sources */,
+				B27FE99E24FEF54D00C8A8F4 /* UTS46+Loading.swift in Sources */,
 				510C86182288EBB400FA2488 /* HTTPDateInfo.swift in Sources */,
+				B27FE9A424FEF54D00C8A8F4 /* Data+Extensions.swift in Sources */,
+				B27FE9A224FEF54D00C8A8F4 /* String+Punycode.swift in Sources */,
 				842ED3051E12FBCC000CF738 /* URLRequest+RSWeb.swift in Sources */,
 				51E49033228866A400C791F0 /* HTTPLinkPagingInfo.swift in Sources */,
 				51EC99CF227DBC1F002E55C9 /* Transport.swift in Sources */,
@@ -451,6 +489,7 @@
 				842ED3111E12FBE1000CF738 /* MacWebBrowser.swift in Sources */,
 				842ED3141E12FBE7000CF738 /* MimeType.swift in Sources */,
 				842ED30B1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */,
+				B27FE9A024FEF54D00C8A8F4 /* UTS46.swift in Sources */,
 				842ED2F91E12FBB5000CF738 /* DownloadProgress.swift in Sources */,
 				842ED2EA1E12FB91000CF738 /* HTTPMethod.swift in Sources */,
 				842ED3021E12FBC7000CF738 /* HTTPConditionalGetInfo.swift in Sources */,
@@ -480,17 +519,22 @@
 				51D587632280554B00900287 /* TransportJSON.swift in Sources */,
 				842ED2FA1E12FBB5000CF738 /* DownloadProgress.swift in Sources */,
 				510C86192288EBB400FA2488 /* HTTPDateInfo.swift in Sources */,
+				B27FE9A324FEF54D00C8A8F4 /* String+Punycode.swift in Sources */,
 				842ED2EB1E12FB91000CF738 /* HTTPMethod.swift in Sources */,
 				51EC99D0227DBC1F002E55C9 /* Transport.swift in Sources */,
 				5113B87122ADBAFC0018040E /* String+RSWeb.swift in Sources */,
+				B27FE9A724FEF54D00C8A8F4 /* Scanner+Extensions.swift in Sources */,
 				842ED2F11E12FB9B000CF738 /* HTTPResponseHeader.swift in Sources */,
 				842ED3061E12FBCC000CF738 /* URLRequest+RSWeb.swift in Sources */,
+				B27FE9A124FEF54D00C8A8F4 /* UTS46.swift in Sources */,
+				B27FE99F24FEF54D00C8A8F4 /* UTS46+Loading.swift in Sources */,
 				842ED2F41E12FBAA000CF738 /* DownloadSession.swift in Sources */,
 				512B10A02350E52A009C4920 /* Dictionary+RSWeb.swift in Sources */,
 				842ED2EE1E12FB97000CF738 /* HTTPResponseCode.swift in Sources */,
 				842ED30C1E12FBD8000CF738 /* URL+RSWeb.swift in Sources */,
 				842ED3151E12FBE7000CF738 /* MimeType.swift in Sources */,
 				842ED3031E12FBC7000CF738 /* HTTPConditionalGetInfo.swift in Sources */,
+				B27FE9A524FEF54D00C8A8F4 /* Data+Extensions.swift in Sources */,
 				842ED2FD1E12FBBB000CF738 /* DownloadObject.swift in Sources */,
 				51E49034228866A400C791F0 /* HTTPLinkPagingInfo.swift in Sources */,
 			);
