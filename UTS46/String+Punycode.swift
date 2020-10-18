@@ -80,8 +80,7 @@ public extension String {
 		var pathAndQuery = urlParts.pathAndQuery
 
 		var allowedCharacters = CharacterSet.urlPathAllowed
-		allowedCharacters.insert(charactersIn: "%")
-		allowedCharacters.insert(charactersIn: "?")
+		allowedCharacters.insert(charactersIn: "%?")
 		pathAndQuery = pathAndQuery.addingPercentEncoding(withAllowedCharacters: allowedCharacters) ?? ""
 
 		var result = "\(urlParts.scheme)\(urlParts.delim)"
@@ -147,6 +146,11 @@ public extension URL {
 	///
 	/// - Parameter unicodeString: The unicode URL string with which to create a URL.
 	init?(unicodeString: String) {
+		if let url = URL(string: unicodeString) {
+			self = url
+			return
+		}
+
 		guard let encodedString = unicodeString.encodedURLString else { return nil }
 		self.init(string: encodedString)
 	}
@@ -167,14 +171,22 @@ public extension URL {
 	///   - unicodeString: The URL string with which to initialize the NSURL object. `unicodeString` is interpreted relative to `baseURL`.
 	///   - url: The base URL for the URL object
 	init?(unicodeString: String, relativeTo url: URL?) {
-		let parts = unicodeString.urlParts
-
-		if !parts.scheme.isEmpty {
-			guard let encodedString = unicodeString.encodedURLString else { return nil }
-			self.init(string: encodedString, relativeTo: url)
+		if let url = URL(string: unicodeString, relativeTo: url) {
+			self = url
+			return
 		}
 
-		self.init(string: unicodeString, relativeTo: url)
+		let parts = unicodeString.urlParts
+
+		if !parts.host.isEmpty {
+			guard let encodedString = unicodeString.encodedURLString else { return nil }
+			self.init(string: encodedString, relativeTo: url)
+		} else {
+			var allowedCharacters = CharacterSet.urlPathAllowed
+			allowedCharacters.insert(charactersIn: "%?#")
+			guard let encoded = unicodeString.addingPercentEncoding(withAllowedCharacters: allowedCharacters) else { return nil }
+			self.init(string: encoded, relativeTo: url)
+		}
 	}
 
 }
@@ -377,13 +389,15 @@ private extension String {
 		var fragment: String?
 
 		if let hostOrScheme = s.shimScanUpToCharacters(from: colonSlash) {
-			delim = s.shimScanCharacters(from: colonSlash) ?? ""
+			let maybeDelim = s.shimScanCharacters(from: colonSlash) ?? ""
 
-			if delim.hasPrefix(":") {
+			if maybeDelim.hasPrefix(":") {
+				delim = maybeDelim
 				scheme = hostOrScheme
 				host = s.shimScanUpToCharacters(from: slashQuestion) ?? ""
 			} else {
-				host = hostOrScheme
+				path.append(hostOrScheme)
+				path.append(maybeDelim)
 			}
 		} else if let maybeDelim = s.shimScanString("//") {
 			delim = maybeDelim
@@ -393,7 +407,7 @@ private extension String {
 			}
 		}
 
-		path = s.shimScanUpToString("#") ?? ""
+		path.append(s.shimScanUpToString("#") ?? "")
 
 		if s.shimScanString("#") != nil {
 			fragment = s.shimScanUpToCharacters(from: .newlines) ?? ""
