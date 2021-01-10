@@ -23,7 +23,6 @@ public protocol DownloadSessionDelegate {
 	
 }
 
-
 @objc public final class DownloadSession: NSObject {
 	
 	private var urlSession: URLSession!
@@ -33,6 +32,7 @@ public protocol DownloadSessionDelegate {
 	private let representedObjects = NSMutableSet()
 	private let delegate: DownloadSessionDelegate
 	private var redirectCache = [String: String]()
+	private var queue = [AnyObject]()
 	
 	public init(delegate: DownloadSessionDelegate) {
 		
@@ -149,6 +149,8 @@ extension DownloadSession: URLSessionDataDelegate {
 			return
 		}
 
+		addDataTaskFromQueueIfNecessary()
+		
 		completionHandler(.allow)
 	}
 	
@@ -174,6 +176,11 @@ extension DownloadSession: URLSessionDataDelegate {
 private extension DownloadSession {
 
 	func addDataTask(_ representedObject: AnyObject) {
+		guard tasksPending.count < 500 else {
+			queue.insert(representedObject, at: 0)
+			return
+		}
+		
 		guard let request = delegate.downloadSession(self, requestForRepresentedObject: representedObject) else {
 			return
 		}
@@ -196,6 +203,11 @@ private extension DownloadSession {
 		tasksPending.insert(task)
 		task.resume()
 	}
+	
+	func addDataTaskFromQueueIfNecessary() {
+		guard tasksPending.count < 500, let representedObject = queue.popLast() else { return }
+		addDataTask(representedObject)
+	}
 
 	func infoForTask(_ task: URLSessionTask) -> DownloadInfo? {
 		return taskIdentifierToInfoDictionary[task.taskIdentifier]
@@ -206,6 +218,8 @@ private extension DownloadSession {
 		tasksPending.remove(task)
 		taskIdentifierToInfoDictionary[task.taskIdentifier] = nil
 
+		addDataTaskFromQueueIfNecessary()
+		
 		if tasksInProgress.count + tasksPending.count < 1 {
 			representedObjects.removeAllObjects()
 			delegate.downloadSessionDidCompleteDownloadObjects(self)
