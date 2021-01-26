@@ -78,6 +78,13 @@ public final class DownloadProgress {
 		}
 	}
 	
+	public func completeTasks(_ tasks: Int) {
+		assert(Thread.isMainThread)
+		if numberRemaining >= tasks {
+			numberRemaining = numberRemaining - tasks
+		}
+	}
+	
 	public func clear() {
 		assert(Thread.isMainThread)
 		numberOfTasks = 0
