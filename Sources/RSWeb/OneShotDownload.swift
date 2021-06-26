@@ -154,8 +154,7 @@ private final class DownloadWithCacheManager {
 		let callbackRecord = CallbackRecord(url: url, completion: completion)
 		pendingCallbacks.append(callbackRecord)
 		if urlsInProgress.contains(url) {
-			completion(nil, nil, nil)
-			return // It will get called later.
+			return // The completion handler will get called later.
 		}
 		urlsInProgress.insert(url)
 
