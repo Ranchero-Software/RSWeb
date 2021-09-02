@@ -58,6 +58,15 @@ public extension URL {
 		return components.url
 	}
 	
+	func preparedForOpeningInBrowser() -> URL? {
+		var urlString = absoluteString.replacingOccurrences(of: " ", with: "%20")
+		urlString = urlString.replacingOccurrences(of: "^", with: "%5E")
+		urlString = urlString.replacingOccurrences(of: "&amp;", with: "&")
+		urlString = urlString.replacingOccurrences(of: "&#38;", with: "&")
+		
+		return URL(string: urlString)
+	}
+
 }
 
 private extension String {
