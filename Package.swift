@@ -23,11 +23,7 @@ let package = Package(
         .target(
             name: "RSWeb",
 			resources: [.copy("UTS46/uts46")],
-			swiftSettings: [.define("SWIFT_PACKAGE")],
-            linkerSettings: [
-                .unsafeFlags(["-Xlinker", "-no_application_extension"])
-            ]
-        ),
+			swiftSettings: [.define("SWIFT_PACKAGE")]),
         .testTarget(
             name: "RSWebTests",
             dependencies: ["RSWeb"]),
