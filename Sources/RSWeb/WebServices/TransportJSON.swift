@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 extension Transport {
 	
@@ -35,6 +36,7 @@ extension Transport {
 								}
 							}
 							catch {
+								error.log()
 								DispatchQueue.main.async {
 									completion(.failure(error))
 								}
@@ -112,6 +114,7 @@ extension Transport {
 							completion(.success((response, nil)))
 						}
 					} catch {
+						error.log()
 						completion(.failure(error))
 					}
 				case .failure(let error):
@@ -128,20 +131,21 @@ extension Transport {
 
 		send(request: request, method: method, payload: data) { result in
 			DispatchQueue.main.async {
-
+				
 				switch result {
 				case .success(let (response, data)):
 					do {
 						if let data = data, !data.isEmpty {
 							let decoder = JSONDecoder()
 							decoder.dateDecodingStrategy = dateDecoding
-                            decoder.keyDecodingStrategy = keyDecoding
-							let decoded = try decoder.decode(R.self, from: data)
+							decoder.keyDecodingStrategy = keyDecoding
+							let decoded = try decoder.decode(R.self, from: "a bunch of bullshit".data(using: .utf8)!)
 							completion(.success((response, decoded)))
 						} else {
 							completion(.success((response, nil)))
 						}
 					} catch {
+						error.log()
 						completion(.failure(error))
 					}
 				case .failure(let error):
@@ -149,5 +153,48 @@ extension Transport {
 				}
 			}
 		}
+	}
+}
+
+extension Error {
+	
+	var logger: Logger {
+		Logger(subsystem: Bundle.main.bundleIdentifier!, category: "Transport")
+	}
+
+	var usableErrorDescription: String {
+		guard let decodingError = self as? DecodingError else { return localizedDescription }
+		
+		var errorDesc = "JSON "
+		
+		switch decodingError {
+		case .typeMismatch(let type, let context):
+			errorDesc += "Type Mismatch for \(type). \(context.description)"
+		case .valueNotFound(let type, let context):
+			errorDesc += "Value Not Found for \(type). \(context.description)"
+		case .keyNotFound(let key, let context):
+			errorDesc += "Key Not Found for \(key). \(context.description)"
+		case .dataCorrupted(let context):
+			errorDesc += "Data Corrupted. \(context.description)"
+		default:
+			errorDesc += "Error: \(localizedDescription)"
+		}
+	
+		return errorDesc
+	}
+	
+	func log() {
+		logger.error("\(usableErrorDescription, privacy: .public)")
+	}
+
+}
+
+extension DecodingError.Context {
+	var description: String {
+		var d = String()
+		if let localizedDescription = underlyingError?.localizedDescription {
+			d += "Error: \(localizedDescription) "
+		}
+		return "\(d)Coding Path: \(codingPath)"
 	}
 }
