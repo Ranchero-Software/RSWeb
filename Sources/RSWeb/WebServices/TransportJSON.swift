@@ -139,7 +139,7 @@ extension Transport {
 							let decoder = JSONDecoder()
 							decoder.dateDecodingStrategy = dateDecoding
 							decoder.keyDecodingStrategy = keyDecoding
-							let decoded = try decoder.decode(R.self, from: "a bunch of bullshit".data(using: .utf8)!)
+							let decoded = try decoder.decode(R.self, from: data)
 							completion(.success((response, decoded)))
 						} else {
 							completion(.success((response, nil)))
@@ -158,10 +158,6 @@ extension Transport {
 
 extension Error {
 	
-	var logger: Logger {
-		Logger(subsystem: Bundle.main.bundleIdentifier!, category: "Transport")
-	}
-
 	var usableErrorDescription: String {
 		guard let decodingError = self as? DecodingError else { return localizedDescription }
 		
@@ -184,7 +180,7 @@ extension Error {
 	}
 	
 	func log() {
-		logger.error("\(usableErrorDescription, privacy: .public)")
+		os_log(.error, log: OSLog(subsystem: Bundle.main.bundleIdentifier!, category: "Transport"), "%{public}@", usableErrorDescription)
 	}
 
 }
