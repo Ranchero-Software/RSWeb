@@ -17,6 +17,17 @@ public extension Notification.Name {
 
 public final class DownloadProgress {
 	
+	public var name: String?
+	public var isPrecise = false
+	
+	public var isIndeterminate = false {
+		didSet {
+			if isIndeterminate != oldValue {
+				postDidChangeNotification()
+			}
+		}
+	}
+	
 	public var numberOfTasks = 0 {
 		didSet {
 			if numberOfTasks == 0 && numberRemaining != 0 {
