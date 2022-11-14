@@ -87,8 +87,6 @@ public protocol DownloadSessionDelegate {
 extension DownloadSession: URLSessionTaskDelegate {
 
 	public func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
-		tasksInProgress.remove(task)
-		
 		guard let info = infoForTask(task) else {
 			return
 		}
