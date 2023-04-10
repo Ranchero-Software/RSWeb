@@ -102,10 +102,21 @@ extension DownloadSession: URLSessionTaskDelegate {
 		
 		if response.statusCode == 301 || response.statusCode == 308 {
 			if let oldURLString = task.originalRequest?.url?.absoluteString, let newURLString = request.url?.absoluteString {
-				cacheRedirect(oldURLString, newURLString)
+                guard oldURLString != newURLString  else {
+                    if let representedObject = infoForTask(task)?.representedObject {
+                        delegate.downloadSession(self, didReceiveUnexpectedResponse: response, representedObject: representedObject)
+                    }
+
+                    completionHandler(nil)
+                    removeTask(task)
+
+                    return
+                }
+
+                cacheRedirect(oldURLString, newURLString)
 			}
 		}
-		
+
 		completionHandler(request)
 	}
 }
@@ -217,7 +228,7 @@ private extension DownloadSession {
 		taskIdentifierToInfoDictionary[task.taskIdentifier] = nil
 
 		addDataTaskFromQueueIfNecessary()
-		
+
 		if tasksInProgress.count + tasksPending.count < 1 {
 			representedObjects.removeAllObjects()
 			delegate.downloadSessionDidCompleteDownloadObjects(self)
